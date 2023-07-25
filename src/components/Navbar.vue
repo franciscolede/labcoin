@@ -1,20 +1,33 @@
 <template>
   <nav class="navbar navbar-expand-md">
     <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar-toggler"
+        aria-controls="navbarTogglerDemo01"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
+      <router-link to="/" class="navbar-brand">LABCOIN</router-link>
       <div class="collapse navbar-collapse" id="navbar-toggler">
-        <a class="navbar-brand" href="#">LABCOIN</a>
         <ul class="navbar-nav d-flex justify-content-center align-items-center">
           <li class="nav-item">
-            <router-link to="/" class="nav-link">Compra</router-link>
+            <router-link to="/" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/about" class="nav-link">Venta</router-link>
+            <router-link to="/purchase" class="nav-link">Purchase</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Historial</a>
+            <router-link to="/sale" class="nav-link">Sale</router-link>
+          </li>
+        </ul>
+        <ul class="navbar-nav d-flex justify-content-center align-items-center">
+          <li class="nav-item">
+            <router-link to="/history" class="nav-link">History</router-link>
           </li>
         </ul>
       </div>
@@ -25,39 +38,36 @@
 <script>
 export default {
   // Puedes agregar propiedades, eventos u otros datos si es necesario
-}
+};
 </script>
 
 <style>
 .navbar {
-  padding: 2rem;
-  background-color: #000f00;
+  background-color: rgb(217, 240, 232);
 }
 
-.navbar-brand{
-  --bs-navbar-brand-color: white;
-  --bs-navbar-brand-hover-color: gray;
+.navbar-brand {
+  --bs-navbar-brand-color: rgb(0, 61, 43);
+  --bs-navbar-brand-hover-color: rgb(0, 61, 43);
   --bs-navbar-brand-disabled-color: black;
 }
 
-.navbar-collapse{
+.navbar-collapse {
   align-items: center;
   justify-content: space-between;
 }
 
-.nav-link{
-  --bs-nav-link-color: white;
-  --bs-nav-link-hover-color: gray;
+.nav-link {
+  --bs-nav-link-color: rgb(0, 61, 43);
+  --bs-nav-link-hover-color: rgb(0, 61, 43);
   --bs-nav-link-disabled-color: black;
 }
 
 /* Responsive */
 
-
-@media screen and (max-width: 767px){
- .navbar-brand{
-  display: none;
- }
+@media screen and (max-width: 767px) {
+  .navbar-brand {
+    display: none;
+  }
 }
-
 </style>

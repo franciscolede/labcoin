@@ -1,5 +1,5 @@
 <template>
-  <Navbar />
+  <Navbar/>
   <router-view/>
 </template>
 
@@ -24,11 +24,11 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: rgb(217, 240, 232);
 }
 
 body{
-  background-color: #101f0d;
+  background-color: rgb(0, 61, 43);
 }
 
 </style>
