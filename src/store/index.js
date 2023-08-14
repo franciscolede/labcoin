@@ -2,12 +2,13 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    username: null,
-    logged: false,
+    username: "",
   },
 
   getters: {
-
+    username(state){
+      return state.username;
+    }
   },
 
   mutations: {
@@ -15,9 +16,6 @@ export default createStore({
       console.log('Setting username to:', username);
       state.username = username;
     },
-    setLogged(state) {
-      state.logged = true;
-    }
   },
 
   actions: {

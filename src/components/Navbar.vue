@@ -18,17 +18,17 @@
           <li class="nav-item">
             <router-link to="/" class="nav-link">Home</router-link>
           </li>
-          <li v-if="!logged" class="nav-item">
+          <li v-if="username === ''" class="nav-item">
             <router-link to="/login" class="nav-link">Login</router-link>
           </li>
-          <li v-if="logged" class="nav-item">
+          <li v-if="username !== ''" class="nav-item">
             <router-link to="/purchase" class="nav-link">Purchase</router-link>
           </li>
-          <li v-if="logged" class="nav-item">
+          <li v-if="username !== ''" class="nav-item">
             <router-link to="/sale" class="nav-link">Sale</router-link>
           </li>
         </ul>
-        <ul v-if="logged" class="navbar-nav d-flex justify-content-center align-items-center">
+        <ul v-if="username !== ''" class="navbar-nav d-flex justify-content-center align-items-center">
           <li class="nav-item">
             <router-link to="/history" class="nav-link">History</router-link>
           </li>
@@ -45,10 +45,12 @@
 </template>
 
 <script>
+import { mapGetters} from 'vuex';
 export default {
-  props: ['username', 'logged'], // Recibiendo las props desde App.vue
   // Puedes agregar propiedades, eventos u otros datos si es necesario
- 
+  computed: {
+    ...mapGetters(['username'])
+  }
 }
 </script>
 

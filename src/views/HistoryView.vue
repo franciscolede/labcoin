@@ -6,7 +6,6 @@
 
 <script>
 export default {
-  props: ['username', 'logged'], // Recibiendo las props desde App.vue
   name: "HistoryView",
   components: {},
 };

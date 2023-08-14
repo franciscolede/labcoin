@@ -1,19 +1,15 @@
 <template>
-  <Navbar :username="username" :logged="logged"/>
-  <router-view :username="username" :logged="logged" />
+  <Navbar/>
+  <router-view/>
 </template>
 
 <script>
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { mapState } from 'vuex';
 import Navbar from './components/Navbar.vue'; 
 
 export default {
   components: {
     Navbar 
-  },
-  computed: {
-    ...mapState(['username', 'logged']),
   },
 }
 </script>

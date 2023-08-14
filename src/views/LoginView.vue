@@ -1,17 +1,20 @@
 <template>
     <div class="login-page">
-      <login :username="username" :logged="logged" />
+      <login/>
     </div>
   </template>
   
   <script>
   import Login from '../components/Login.vue';
+  import { mapGetters} from 'vuex';
   
   export default {
-    props: ['username', 'logged'], // Recibiendo las props desde App.vue
     components: {
       Login,
-    }
+    },
+    computed: {
+      ...mapGetters(['username'])
+  }
   };
   </script>
   
