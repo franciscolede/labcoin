@@ -18,16 +18,25 @@
           <li class="nav-item">
             <router-link to="/" class="nav-link">Home</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!logged" class="nav-item">
+            <router-link to="/login" class="nav-link">Login</router-link>
+          </li>
+          <li v-if="logged" class="nav-item">
             <router-link to="/purchase" class="nav-link">Purchase</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="logged" class="nav-item">
             <router-link to="/sale" class="nav-link">Sale</router-link>
           </li>
         </ul>
-        <ul class="navbar-nav d-flex justify-content-center align-items-center">
+        <ul v-if="logged" class="navbar-nav d-flex justify-content-center align-items-center">
           <li class="nav-item">
             <router-link to="/history" class="nav-link">History</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/#" class="nav-link">{{username}}</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/#" class="nav-link"><img id="userImage" src="../assets/anonUser.png" alt="anonUser"></router-link>
           </li>
         </ul>
       </div>
@@ -37,11 +46,18 @@
 
 <script>
 export default {
+  props: ['username', 'logged'], // Recibiendo las props desde App.vue
   // Puedes agregar propiedades, eventos u otros datos si es necesario
-};
+ 
+}
 </script>
 
 <style>
+#userImage{
+  width: 28px;
+  border-radius: 50%;
+}
+
 .navbar {
   background-color: rgb(217, 240, 232);
 }

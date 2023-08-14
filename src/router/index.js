@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import PurchaseView from '../views/PurchaseView.vue'
 import SaleView from '../views/SaleView.vue'
 import HistoryView from '../views/HistoryView.vue'
+import LoginView from '../views/LoginView.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/history',
     name: 'history',
     component: HistoryView
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
   }
 ]
 
