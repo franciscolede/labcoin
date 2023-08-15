@@ -1,14 +1,19 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <p>Usuario: {{ username }}</p>
+    <LoginHome>
+    </LoginHome>
   </div> 
 </template>
 
 <script>
 import { mapGetters} from 'vuex';
+import LoginHome from '../components/LoginHome.vue'; 
+
 export default {
   name: 'HomeView',
+  components: {
+    LoginHome
+  },
   computed: {
     ...mapGetters(['username'])
   }

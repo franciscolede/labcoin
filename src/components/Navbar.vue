@@ -56,12 +56,13 @@ export default {
 
 <style>
 #userImage{
-  width: 28px;
+  height: 25px;
   border-radius: 50%;
 }
 
 .navbar {
   background-color: rgb(217, 240, 232);
+  max-height: 50px;
 }
 
 .navbar-brand {

@@ -1,8 +1,10 @@
 <template>
-  <div class="login">
-    <div>
-      <input :value="localUsername" @input="updateLocalUsername" @keydown.enter="submitForm" placeholder="Nombre de usuario" />
-      <button @click="submitForm">Iniciar sesión</button>
+  <div v-if="username === ''" class="login">
+    <span>INICIA SESIÓN</span>
+      <h1>para comprar y vender criptos!</h1>
+    <div id="login-form">
+      <input class="form-control" :value="localUsername" @input="updateLocalUsername" @keydown.enter="submitForm" placeholder="Nombre de usuario" />
+      <button @click="submitForm" class="btn btn-outline-light">Iniciar sesión</button>
     </div>
   </div>
 </template>
@@ -35,10 +37,36 @@ import { mapGetters} from 'vuex';
 }
 </script>
   
-<style>
+<style scoped>
+
+  h1{
+    font-size: 30px;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  span{
+    font-size: 50px;
+    padding: 0px;
+    margin: 0px;
+  }
   
-  
-  /* Responsive */
+  #login-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    align-items: center;
+    justify-content: center;
+
+    row-gap: 15px;
+
+  }
+
+  .form-control{
+    width: 50%;
+    margin-top: 25px;
+  } 
   
 </style>
   
