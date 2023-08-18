@@ -4,6 +4,7 @@ import PurchaseView from '../views/PurchaseView.vue'
 import SaleView from '../views/SaleView.vue'
 import HistoryView from '../views/HistoryView.vue'
 import LoginView from '../views/LoginView.vue'
+import store from '@/store'
 
 const routes = [
   {
@@ -14,22 +15,26 @@ const routes = [
   {
     path: '/purchase',
     name: 'purchase',
-    component: PurchaseView
+    component: PurchaseView,
+    meta: { requiresAuth: true } // Require authentication
   },
   {
     path: '/sale',
     name: 'sale',
-    component: SaleView
+    component: SaleView,
+    meta: { requiresAuth: true } // Require authentication
   },
   {
     path: '/history',
     name: 'history',
-    component: HistoryView
+    component: HistoryView,
+    meta: { requiresAuth: true } // Require authentication
   },
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: LoginView,
+    meta: { requiresGuest: true } // Allow only unauthenticated access
   }
 ]
 
@@ -37,5 +42,15 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !store.state.isLoggedIn) {
+    next('/login');
+  } else if (to.meta.requiresGuest && store.state.isLoggedIn) {
+    next('/#');
+  } else {
+    next();
+  }
+});
 
 export default router

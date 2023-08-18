@@ -1,40 +1,41 @@
 <template>
-  <div v-if="username === ''" class="login">
+  <div class="login">
     <span>INICIA SESIÓN</span>
       <h1>para comprar y vender criptos!</h1>
     <div id="login-form">
-      <input class="form-control" :value="localUsername" @input="updateLocalUsername" @keydown.enter="submitForm" placeholder="Nombre de usuario" />
-      <button @click="submitForm" class="btn btn-outline-light">Iniciar sesión</button>
+      <input class="form-control" v-model="username" @keydown.enter="handleLogin" placeholder="Nombre de usuario" />
+      <button @click="handleLogin" class="btn btn-outline-light">Iniciar sesión</button>
     </div>
   </div>
 </template>
   
 <script>
-import { mapGetters} from 'vuex';
-  export default {
-    data() {
-      return{
-        localUsername: "",
-      }
-    },
-  methods: {
-    updateLocalUsername(event){
-      this.localUsername = event.target.value;
-    },
-    submitForm() {
-      if (/^[a-zA-Z0-9]{4,15}$/.test(this.localUsername)) {
-        this.$store.commit('setUsername', this.localUsername);
+import { mapActions, mapGetters } from 'vuex';
 
-        this.$router.push('/');
+export default {
+  data() {
+    return {
+      username: ''
+    };
+  },
+  methods: {
+    ...mapActions(['login']),
+
+    async handleLogin() {
+      const usernamePattern = /^[a-zA-Z0-9]{5,15}$/;
+
+      if (this.username && usernamePattern.test(this.username)) {
+        await this.login(this.username);
+        this.$router.push('/#'); // Redirect to home after login
       } else {
-        alert("Ingresa un nombre de usuario válido (sin espacios, alfanumérico, entre 4 y 15 caracteres).");
+        alert('Ingrese un ID de usuario válido. Debe tener entre 5 y 15 caracteres alfanuméricos.');
       }
-    },
+    }
   },
   computed: {
-    ...mapGetters(['username'])
+    ...mapGetters(['isLoggedIn'])
   }
-}
+};
 </script>
   
 <style scoped>

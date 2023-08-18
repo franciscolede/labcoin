@@ -1,5 +1,5 @@
 <template>
-    <div v-if="username === ''" class="login-home container-fluid">
+    <div v-if="!isLoggedIn" class="login-home container-fluid">
         <div class="row">
             <div class="col"><img src="../assets/logo.png" alt="logo vue"></div>
             <div class="col">
@@ -14,7 +14,7 @@
     import Login from '../components/Login.vue'; 
     export default {
     computed: {
-      ...mapGetters(['username'])
+      ...mapGetters(['getUsername', 'isLoggedIn'])
     },
     components: {
         Login

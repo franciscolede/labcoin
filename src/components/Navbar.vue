@@ -18,24 +18,27 @@
           <li class="nav-item">
             <router-link to="/" class="nav-link">Home</router-link>
           </li>
-          <li v-if="username === ''" class="nav-item">
+          <li v-if="!isLoggedIn" class="nav-item">
             <router-link to="/login" class="nav-link">Login</router-link>
           </li>
-          <li v-if="username !== ''" class="nav-item">
+          <li v-if="isLoggedIn" class="nav-item">
             <router-link to="/purchase" class="nav-link">Purchase</router-link>
           </li>
-          <li v-if="username !== ''" class="nav-item">
+          <li v-if="isLoggedIn" class="nav-item">
             <router-link to="/sale" class="nav-link">Sale</router-link>
           </li>
         </ul>
-        <ul v-if="username !== ''" class="navbar-nav d-flex justify-content-center align-items-center">
-          <li class="nav-item">
+        <ul class="navbar-nav d-flex justify-content-center align-items-center">
+          <li v-if="isLoggedIn" class="nav-item">
             <router-link to="/history" class="nav-link">History</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="isLoggedIn" class="nav-item">
             <router-link to="/#" class="nav-link">{{username}}</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="isLoggedIn" class="nav-item">
+            <button @click="handleLogout">Salir</button>
+          </li>
+          <li v-if="isLoggedIn" class="nav-item">
             <router-link to="/#" class="nav-link"><img id="userImage" src="../assets/anonUser.png" alt="anonUser"></router-link>
           </li>
         </ul>
@@ -46,10 +49,19 @@
 
 <script>
 import { mapGetters} from 'vuex';
+import { mapActions } from 'vuex';
 export default {
   // Puedes agregar propiedades, eventos u otros datos si es necesario
   computed: {
-    ...mapGetters(['username'])
+    ...mapGetters(['username', 'isLoggedIn'])
+  },
+  methods: {
+    ...mapActions(['logout']),
+    
+    async handleLogout() {
+      await this.logout();
+      this.$router.push('/login'); // Redirect to login page after logout
+    }
   }
 }
 </script>
