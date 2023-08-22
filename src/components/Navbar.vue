@@ -16,21 +16,21 @@
       <div class="collapse navbar-collapse" id="navbar-toggler">
         <ul class="navbar-nav d-flex justify-content-center align-items-center">
           <li class="nav-item">
-            <router-link to="/" class="nav-link">Home</router-link>
+            <router-link to="/" class="nav-link">Inicio</router-link>
           </li>
           <li v-if="!isLoggedIn" class="nav-item">
-            <router-link to="/login" class="nav-link">Login</router-link>
+            <router-link to="/login" class="nav-link">Iniciar sesión</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
-            <router-link to="/purchase" class="nav-link">Purchase</router-link>
+            <router-link to="/purchase" class="nav-link">Compra</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
-            <router-link to="/sale" class="nav-link">Sale</router-link>
+            <router-link to="/sale" class="nav-link">Venta</router-link>
           </li>
         </ul>
         <ul class="navbar-nav d-flex justify-content-center align-items-center">
           <li v-if="isLoggedIn" class="nav-item">
-            <router-link to="/history" class="nav-link">History</router-link>
+            <router-link to="/history" class="nav-link">Historial</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
             <router-link to="/#" class="nav-link">{{username}}</router-link>

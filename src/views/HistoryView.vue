@@ -1,6 +1,6 @@
 <template>
   <div class="history-page">
-    <h1>History page</h1>
+    <h1>Vista Historial</h1>
   </div>
 </template>
 

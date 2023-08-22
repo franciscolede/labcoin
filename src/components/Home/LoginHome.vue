@@ -1,7 +1,7 @@
 <template>
     <div v-if="!isLoggedIn" class="login-home container-fluid">
         <div class="row">
-            <div class="col"><img src="../assets/logo.png" alt="logo vue"></div>
+            <div class="col"><img src="@/assets/logo.png" alt="logo vue"></div>
             <div class="col">
                 <login id="custom-login"></login>
             </div>
@@ -11,7 +11,7 @@
     
   <script>
     import { mapGetters} from 'vuex';
-    import Login from '../components/Login.vue'; 
+    import Login from '@/components/Login.vue'; 
     export default {
     computed: {
       ...mapGetters(['getUsername', 'isLoggedIn'])

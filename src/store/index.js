@@ -1,9 +1,10 @@
 import { createStore } from 'vuex';
+import VuexPersistence from 'vuex-persist';
 
 export default createStore({
   state: {
-    username: localStorage.getItem('username') || '',
-    isLoggedIn: localStorage.getItem('isLoggedIn') === 'true'
+    username: null,
+    isLoggedIn: false,
   },
 
   getters: {
@@ -12,7 +13,7 @@ export default createStore({
   },
 
   mutations: {
-    setUserId(state, username) {
+    login(state, username) {
       state.username = username;
       state.isLoggedIn = true;
     },
@@ -27,10 +28,8 @@ export default createStore({
     async login({ commit }, username) {
       try {
         // You can perform additional validation or checks here if needed
-        commit('setUserId', username);
+        commit('login', username);
 
-        localStorage.setItem('isLoggedIn', true);
-        localStorage.setItem('username', username);
       } catch (error) {
         console.error('Error during login:', error);
       }
@@ -41,8 +40,6 @@ export default createStore({
         // You can perform additional actions during logout if needed
         commit('logout');
 
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('username');
       } catch (error) {
         console.error('Error during logout:', error);
       }
@@ -51,5 +48,11 @@ export default createStore({
 
   modules: {
 
-  }
+  },
+
+  plugins: [
+    new VuexPersistence({
+      storage: window.localStorage
+    }).plugin
+  ]
 })

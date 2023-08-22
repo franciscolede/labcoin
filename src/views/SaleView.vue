@@ -1,6 +1,6 @@
 <template>
   <div class="sale-page">
-    <h1>Sale page</h1>
+    <h1>Vista venta</h1>
   </div>
 </template>
 

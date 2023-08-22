@@ -1,6 +1,6 @@
 <template>
   <div class="purchase-page">
-    <h1>Purchase page</h1>
+    <h1>Vista compra</h1>
   </div>
 </template>
 
