@@ -30,4 +30,10 @@ body{
   background-color: rgb(0, 61, 43);
 }
 
+a {
+  color: inherit; /* Hereda el color del texto del elemento padre */
+  text-decoration: none; /* Elimina el subrayado */
+  transition: none; /* Elimina las transiciones */
+}
+
 </style>

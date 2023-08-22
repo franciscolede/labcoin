@@ -12,7 +12,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <router-link to="/" class="navbar-brand">LABCOIN</router-link>
+      <router-link to="/" class="navbar-brand"><img id="logo" src="../assets/logo.png" alt="logo-labcoin"></router-link>
       <div class="collapse navbar-collapse" id="navbar-toggler">
         <ul class="navbar-nav d-flex justify-content-center align-items-center">
           <li class="nav-item">
@@ -60,13 +60,18 @@ export default {
     
     async handleLogout() {
       await this.logout();
-      this.$router.push('/login'); // Redirect to login page after logout
+      this.$router.push('/#'); // Redirect to login page after logout
     }
   }
 }
 </script>
 
 <style>
+
+#logo{
+  height: 30px;
+}
+
 #userImage{
   height: 25px;
   border-radius: 50%;

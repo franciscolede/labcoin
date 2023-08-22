@@ -1,9 +1,9 @@
 <template>
     <div v-if="!isLoggedIn" class="login-home container-fluid">
         <div class="row">
-            <div class="col"><img src="@/assets/logo.png" alt="logo vue"></div>
-            <div class="col">
-                <login id="custom-login"></login>
+            <div class="col"><img src="@/assets/full-logo.png" alt="logo vue"></div>
+            <div class="col login-comp">
+                <login></login>
             </div>
         </div>
     </div>
@@ -31,11 +31,14 @@
     }
 
    img{
-    height: 350px;
+    height: 80%;
    }
 
-   #custom-login{
-    margin: 10% 0%;
+   .login-comp{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
    }
 
   </style>

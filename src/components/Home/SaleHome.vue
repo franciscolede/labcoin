@@ -1,13 +1,13 @@
 <template>
-    <div class="purchase-home container-xl">
+    <div class="sale-home container-xl">
         <div class="row">
-            <div class="col"><img id="purchase-img" src="@/assets/purchase2.png" alt="Persona comprando crypto"></div>
             <div class="col btn-div">
-              <router-link to="/purchase">
-                <img id="arrow" src="@/assets/arrow.png" alt="arrow">
-                <p>COMPRÁ CRYPTO!</p>
-              </router-link>
+              <router-link to="/sale">
+                <img id="arrow" src="@/assets/arrow.png" alt="">
+                <p>VENDÉ CRYPTO!</p>
+            </router-link>
             </div>
+            <div class="col"><img id="sale-img" src="@/assets/sale.png" alt="Persona vendiendo crypto"></div>
         </div>
     </div>
   </template>
@@ -26,7 +26,7 @@
     
   <style scoped>
     .row{
-        background-color: rgba(77, 146, 127, 0.295);
+        background-color: rgba(69, 153, 129, 0.527);
         height: 350px;
         /* border-bottom-right-radius: 50px;
         border-bottom-left-radius: 50px; */
@@ -39,17 +39,18 @@
       align-items: center; /* Centrar verticalmente el botón */
     }
 
-   #purchase-img{
+   #sale-img{
     height: 350px;
    }
-
+   
    #arrow{
     height: 150px;
+    transform: scaleX(-1);
     transition: transform 0.3s;
    }
 
    #arrow:hover{
-    transform: scaleX(1.3);
+    transform: scaleX(-1.3);
    }
 
    #custom-login{
