@@ -3,6 +3,7 @@
     <LoginHome/>
     <PurchaseHome/>
     <SaleHome/>
+    <UserOptionsHome/>
   </div> 
 </template>
 
@@ -11,6 +12,7 @@ import { mapGetters} from 'vuex';
 import LoginHome from '../components/Home/LoginHome.vue'; 
 import PurchaseHome from '../components/Home/PurchaseHome.vue'; 
 import SaleHome from '../components/Home/SaleHome.vue'; 
+import UserOptionsHome from '../components/Home/UserOptionsHome.vue'; 
 
 export default {
   name: 'HomeView',
@@ -18,6 +20,7 @@ export default {
     LoginHome,
     PurchaseHome,
     SaleHome,
+    UserOptionsHome,
   },
   computed: {
     ...mapGetters(['username'])
