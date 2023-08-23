@@ -19,7 +19,7 @@
             <router-link to="/" class="nav-link">Inicio</router-link>
           </li>
           <li v-if="!isLoggedIn" class="nav-item">
-            <router-link to="/login" class="nav-link">Iniciar sesión</router-link>
+            <router-link to="/login" class="nav-link">Ingresar</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
             <router-link to="/purchase" class="nav-link">Compra</router-link>
@@ -29,11 +29,8 @@
           </li>
         </ul>
         <ul class="navbar-nav d-flex justify-content-center align-items-center">
-          <li v-if="isLoggedIn" class="nav-item">
-            <router-link to="/history" class="nav-link">Historial</router-link>
-          </li>
-          <li v-if="isLoggedIn" class="nav-item">
-            <router-link to="/#" class="nav-link">{{username}}</router-link>
+          <li v-if="isLoggedIn">
+            <div class="nav-link"><Dropdown/></div>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
             <button class="btn btn-outline-danger btn-sm" @click="handleLogout">Salir</button>
@@ -50,7 +47,11 @@
 <script>
 import { mapGetters} from 'vuex';
 import { mapActions } from 'vuex';
+import Dropdown from '@/components/buttons/dropdown.vue'; 
 export default {
+  components: {
+    Dropdown,
+  },
   // Puedes agregar propiedades, eventos u otros datos si es necesario
   computed: {
     ...mapGetters(['username', 'isLoggedIn'])
@@ -79,7 +80,7 @@ export default {
 
 .navbar {
   background-color: rgb(217, 240, 232);
-  max-height: 50px;
+  /* max-height: 50px; */
 }
 
 .navbar-brand {

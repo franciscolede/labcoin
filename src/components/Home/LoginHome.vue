@@ -1,7 +1,7 @@
 <template>
     <div v-if="!isLoggedIn" class="login-home container-fluid">
         <div class="row">
-            <div class="col"><img src="@/assets/full-logo.png" alt="logo vue"></div>
+            <div class="col d-none d-md-block"><img src="@/assets/full-logo.png" alt="logo vue"></div>
             <div class="col login-comp">
                 <login></login>
             </div>
