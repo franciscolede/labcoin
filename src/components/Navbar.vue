@@ -36,7 +36,7 @@
             <router-link to="/#" class="nav-link">{{username}}</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
-            <button @click="handleLogout">Salir</button>
+            <button class="btn btn-outline-danger btn-sm" @click="handleLogout">Salir</button>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
             <router-link to="/#" class="nav-link"><img id="userImage" src="../assets/anonUser.png" alt="anonUser"></router-link>
@@ -95,7 +95,7 @@ export default {
 
 .nav-link {
   --bs-nav-link-color: rgb(0, 61, 43);
-  --bs-nav-link-hover-color: rgb(0, 61, 43);
+  --bs-nav-link-hover-color: rgb(0, 0, 0);
   --bs-nav-link-disabled-color: black;
 }
 

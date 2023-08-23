@@ -1,13 +1,13 @@
 <template>
     <div class="sale-home container-xl">
         <div class="row">
-            <div class="col btn-div">
+            <div class="col-md-6 btn-div">
               <router-link to="/sale">
                 <img id="arrow" src="@/assets/arrow.png" alt="">
                 <p>VENDÉ CRYPTO!</p>
             </router-link>
             </div>
-            <div class="col"><img id="sale-img" src="@/assets/sale.png" alt="Persona vendiendo crypto"></div>
+            <div class="col-md-6 d-none d-md-block"><img id="sale-img" src="@/assets/sale.png" alt="Persona vendiendo crypto"></div>
         </div>
     </div>
   </template>
@@ -30,17 +30,16 @@
         height: 350px;
         /* border-bottom-right-radius: 50px;
         border-bottom-left-radius: 50px; */
+        display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .btn-div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center; /* Centrar horizontalmente el botón */
-      align-items: center; /* Centrar verticalmente el botón */
-    }
 
    #sale-img{
     height: 350px;
+    width: 100% ;
+    object-fit:contain;
    }
    
    #arrow{
