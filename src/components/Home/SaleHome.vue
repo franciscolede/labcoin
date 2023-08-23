@@ -4,7 +4,7 @@
             <div class="col-md-6 btn-div">
               <router-link to="/sale">
                 <img id="arrow" src="@/assets/arrow.png" alt="">
-                <p>VENDÉ CRYPTO!</p>
+                <p>VENDÉ CRIPTO!</p>
             </router-link>
             </div>
             <div class="col-md-6 d-none d-md-block"><img id="sale-img" src="@/assets/sale.png" alt="Persona vendiendo crypto"></div>

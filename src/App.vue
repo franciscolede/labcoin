@@ -2,19 +2,19 @@
   <div id="app">
     <Navbar />
     <router-view id="content" />
-    <footer id="footer">
-      asd
-    </footer>
+    <FooterApp/>
   </div>
 </template>
 
 <script>
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Navbar from './components/Navbar.vue'; 
+import FooterApp from './components/footer.vue'; 
 
 export default {
   components: {
-    Navbar 
+    Navbar,
+    FooterApp,
   },
 }
 </script>
@@ -23,6 +23,10 @@ export default {
 /* Importar estilos de Bootstrap */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+@font-face {
+  font-family: 'Kollektif';
+  src: url('../src/assets/fonts/Kollektif.ttf') format('truetype');
+}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

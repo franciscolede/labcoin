@@ -5,7 +5,7 @@
             <div class="col-md-6 btn-div">
               <router-link to="/purchase">
                 <img id="arrow" src="@/assets/arrow.png" alt="arrow">
-                <p>COMPRÁ CRYPTO!</p>
+                <p>COMPRÁ CRIPTO!</p>
               </router-link>
             </div>
         </div>

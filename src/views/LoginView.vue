@@ -20,7 +20,7 @@
   
   <style scoped>
   .login-page {
-    padding: 10px;
+    padding: 25px;
   }
   </style>
   
