@@ -10,7 +10,7 @@
             </div>
         </div>
         <hr>
-        <div class="col title">Soporte</div>
+        <div class="col title">Contacto</div>
         <div class="row soporte">
             <div class="col col-sop">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope"
@@ -29,6 +29,7 @@
                 <div>3564-528910</div>
             </div>
             <div class="col col-sop">
+                <a href="https://github.com/franciscolede/labcoin">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-github"
                     viewBox="0 0 16 16">
                     <path
@@ -37,6 +38,7 @@
                 <div>
                     franciscolede/labcoin
                 </div>
+            </a>
             </div>
         </div>
     </div>

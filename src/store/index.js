@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
+import criptosModule from './criptos'
 
 export default createStore({
   state: {
@@ -47,7 +48,7 @@ export default createStore({
   },
 
   modules: {
-
+    criptos: criptosModule
   },
 
   plugins: [
