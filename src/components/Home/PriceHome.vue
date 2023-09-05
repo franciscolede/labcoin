@@ -5,45 +5,66 @@
             <div class="col">
                 <img src="@/assets/btc.png" alt="Bitcoin">
                 <h5>Bitcoin</h5>
-                <h3>${{ bitcoinPrice.argenbtc.ask }}</h3>
+                <h3>Compra: ${{ bitcoinPrice.ask }}</h3>
+                <h3>Venta: ${{ bitcoinPrice.bid }}</h3>
             </div>
 
             <div class="col">
                 <img src="@/assets/eth.png" alt="Ethereum">
                 <h5>Ethereum</h5>
+                <h3>Compra: ${{ ethereumPrice.ask }}</h3>
+                <h3>Venta: ${{ ethereumPrice.bid }}</h3>
             </div>
 
             <div class="col">
                 <img src="@/assets/usdc.png" alt="USD Coin">
                 <h5>USD Coin</h5>
+                <h3>Compra: ${{ usdcPrice.ask }}</h3>
+                <h3>Venta: ${{ usdcPrice.bid }}</h3>
             </div>
 
             <div class="col">
                 <img src="@/assets/usdt.png" alt="Tether USDt">
                 <h5>Tether USDt</h5>
+                <h3>Compra: ${{ usdtPrice.ask }}</h3>
+                <h3>Venta: ${{ usdtPrice.bid }}</h3>
             </div>
         </div>
     </div>
   </template>
     
     <script>
-    import { mapGetters, mapActions } from 'vuex'
-    
-    export default {
-      computed: {
-        ...mapGetters('criptos', ['getBitcoinPrice']),
-        bitcoinPrice() {
-          return this.getBitcoinPrice
-        }
-      },
-      methods: {
-        ...mapActions('criptos', ['fetchBitcoinPrice'])
-      },
-      created() {
-        this.fetchBitcoinPrice();
-      }
-    }
-    </script>
+import { mapGetters, mapActions } from 'vuex';
+
+export default {
+  computed: {
+    ...mapGetters('criptos', [
+      'getBitcoinPrice',
+      'getEthereumPrice',
+      'getUsdcPrice',
+      'getUsdtPrice',
+    ]),
+    bitcoinPrice() {
+      return this.getBitcoinPrice;
+    },
+    ethereumPrice() {
+      return this.getEthereumPrice;
+    },
+    usdcPrice() {
+      return this.getUsdcPrice;
+    },
+    usdtPrice() {
+      return this.getUsdtPrice;
+    },
+  },
+  methods: {
+    ...mapActions('criptos', ['fetchCryptosPrices']),
+  },
+  created() {
+    this.fetchCryptosPrices();
+  },
+};
+</script>
     
   <style scoped>
 
