@@ -12,6 +12,9 @@ import Navbar from './components/Navbar.vue';
 import FooterApp from './components/footer.vue'; 
 
 export default {
+  created() {
+    document.title = "LABCOIN";
+  },
   components: {
     Navbar,
     FooterApp,
