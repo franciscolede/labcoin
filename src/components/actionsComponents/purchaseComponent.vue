@@ -63,6 +63,7 @@ export default {
   },
   methods: {
     ...mapActions('criptos', ['fetchCryptosPrices']),
+    ...mapActions('transactions', ['newPurchase','getHistory']),
 
     calculateAmount() {
       const selectedCriptoPrice = this.getSelectedPrice(this.selectedCripto);
@@ -89,7 +90,30 @@ export default {
     },
 
     newPurchase() {
+      if (this.money > 0 && this.amount > 0){
+          const purchaseData = {
+          user_id: this.username,
+          action: 'purchase',
+          crypto_code: this.selectedCripto,
+          crypto_amount: this.amount,
+          money: this.money,
+          datetime: new Date(),
+        };
+
+        this.$store.dispatch('transactions/newPurchase', purchaseData)
+          .then((response) => {
+            console.log('Compra registrada con éxito', response);
+          })
+          .catch((error) => {
+            console.error('Error al crear la compra:', error);
+          });
+      } else {
+        alert("asd")
+      }
+
+      console.log(this.getHistory(this.username))
     },
+
   },
   watch: { //Al cambiar de moneda en el select, reestablecer el valor de money y amount a 0 para evitar confusiones
     selectedCripto() {
