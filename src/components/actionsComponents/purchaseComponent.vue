@@ -13,7 +13,7 @@
                 </div>
                 <div class="ars-money">
                     <label for="money">Monto a pagar(en ARS):</label>
-                    <input class="input" type="number" id="money" v-model="money" step="1" @input="calculateAmount" required>
+                    <input class="input" type="number" id="money" v-model="money" min="0" step="1" @input="calculateAmount" required>
                 </div>
                 <div class="cripto-amount">
                     <label>Cantidad de {{ selectedCripto }} a comprar:</label>
@@ -66,7 +66,14 @@ export default {
 
     calculateAmount() {
       const selectedCriptoPrice = this.getSelectedPrice(this.selectedCripto);
-      this.amount = (parseFloat(this.money) / parseFloat(selectedCriptoPrice));
+
+
+      if (this.money < 0) {
+        this.money = 0; // Establece el valor en 0 si es negativo
+      }
+
+
+      this.amount = (parseFloat(this.money) / parseFloat(selectedCriptoPrice)).toFixed(13);//toFixed para la cantidad de decimales
     },
 
     getSelectedPrice(selectedCripto) {
@@ -82,6 +89,12 @@ export default {
     },
 
     newPurchase() {
+    },
+  },
+  watch: { //Al cambiar de moneda en el select, reestablecer el valor de money y amount a 0 para evitar confusiones
+    selectedCripto() {
+      this.money = 0;
+      this.amount = 0;
     },
   },
   created() {
