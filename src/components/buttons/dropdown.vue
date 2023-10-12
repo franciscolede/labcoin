@@ -30,6 +30,8 @@
   </script>
     
   <style scoped>
-  
+    .btn{
+      min-width: 120px;
+    }
   </style>
     
