@@ -20,9 +20,10 @@
                     {{ amount }}
                 </div>
                 <div class="btn-save">
-                    <button id="btn-save" type="submit">Guardar Compra</button>
+                    <button class="btn btn-outline-light" id="btn-save" type="submit">Guardar Compra</button>
                 </div> 
             </form>
+            <p>{{ msjPurchase }}</p>
         </div>
     </div>
 </template>
@@ -36,6 +37,7 @@ export default {
       selectedCripto: 'btc',
       money: 0,
       amount: 0,
+      msjPurchase: "",
     }
   },
   computed: {
@@ -70,7 +72,7 @@ export default {
 
 
       if (this.money < 0) {
-        this.money = 0; // Establece el valor en 0 si es negativo
+        this.money = 0;
       }
 
 
@@ -91,6 +93,7 @@ export default {
 
     newPurchase() {
       if (this.money > 0 && this.amount > 0){
+          this.msjPurchase = "";
           const purchaseData = {
           user_id: this.username,
           action: 'purchase',
@@ -102,13 +105,17 @@ export default {
 
         this.$store.dispatch('transactions/newPurchase', purchaseData)
           .then((response) => {
+            this.msjPurchase = "Compra realizada con éxito!";
             console.log('Compra registrada con éxito', response);
+            this.money = 0;
+            this.amount = 0;
           })
           .catch((error) => {
+            this.msjPurchase = "Hubo un error al realizar la compra, intentelo nuevamente."
             console.error('Error al crear la compra:', error);
           });
       } else {
-        alert("asd")
+        this.msjPurchase = "Ingrese un monto a pagar mayor a 0 para realizar la compra.";
       }
 
       console.log(this.getHistory(this.username))
