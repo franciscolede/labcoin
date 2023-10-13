@@ -63,7 +63,7 @@ export default {
       await this.logout();
       this.$router.push('/#'); // Redirect to login page after logout
     }
-  }
+  },
 }
 </script>
 

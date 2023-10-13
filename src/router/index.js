@@ -4,6 +4,7 @@ import PurchaseView from '../views/PurchaseView.vue'
 import SaleView from '../views/SaleView.vue'
 import HistoryView from '../views/HistoryView.vue'
 import LoginView from '../views/LoginView.vue'
+import StateView from '../views/StateView.vue'
 import store from '@/store'
 
 const routes = [
@@ -35,7 +36,13 @@ const routes = [
     name: 'login',
     component: LoginView,
     meta: { requiresGuest: true } // Allow only unauthenticated access
-  }
+  },
+  {
+    path: '/state',
+    name: 'state',
+    component: StateView,
+    meta: { requiresAuth: true } // Require authentication
+  },
 ]
 
 const router = createRouter({

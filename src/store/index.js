@@ -11,7 +11,7 @@ export default createStore({
 
   getters: {
     username: state => state.username,
-    isLoggedIn: state => state.isLoggedIn
+    isLoggedIn: state => state.isLoggedIn,
   },
 
   mutations: {

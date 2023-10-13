@@ -76,7 +76,7 @@ export default {
       }
 
 
-      this.amount = (parseFloat(this.money) / parseFloat(selectedCriptoPrice)).toFixed(13);//toFixed para la cantidad de decimales
+      this.amount = (parseFloat(this.money) / parseFloat(selectedCriptoPrice)).toFixed(6);//toFixed para la cantidad de decimales
     },
 
     getSelectedPrice(selectedCripto) {

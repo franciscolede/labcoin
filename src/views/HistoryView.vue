@@ -7,11 +7,12 @@
           <div class="transaction">
             <p>Transacción {{ index + 1 }}</p>
             <div class="transaction-box" :class="{'purchase': transaction.action === 'purchase'}">
-                <p>Tipo de cripto: {{ transaction.crypto_code }}</p>
-                <p>Acción realizada: {{ transaction.action }}</p>
-                <p>Cantidad de cripto: {{ transaction.crypto_amount }}</p>
-                <p>Dinero en pesos: {{ transaction.money }}</p>
-                <p>Fecha: {{ transaction.datetime }}</p>
+              <p>Tipo de cripto: {{ transaction.crypto_code }}</p>
+              <p>Acción realizada: {{ transaction.action }}</p>
+              <p>Cantidad de cripto: {{ transaction.crypto_amount }}</p>
+              <p>Dinero en pesos: {{ transaction.money }}</p>
+              <p>id de la transacción: {{ transaction._id }}</p>
+              <p>Fecha: {{ transaction.datetime }}</p>
             </div>
           </div>
         </li>
