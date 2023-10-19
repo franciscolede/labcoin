@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="form-container">
-            <form @submit.prevent="newPurchase">
+            <form @submit.prevent="savePurchaseData">
                 <div class="cripto-option">
                     <label for="cripto">Criptomoneda:</label>
                     <select class="input" id="cripto" v-model="selectedCripto" required>
@@ -20,10 +20,31 @@
                     {{ amount }}
                 </div>
                 <div class="btn-save">
-                    <button class="btn btn-outline-light" id="btn-save" type="submit">Guardar Compra</button>
+                    <button type="submit" class="btn btn-outline-light" v-bind:disabled="!money" data-bs-toggle="modal" data-bs-target="#confirmPurchase">Confirmar compra</button>
+            
+                    <div class="modal" id="confirmPurchase">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Confirmar compra</h5>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            <h6>Confirme que está seguro de realizar la compra.</h6>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-danger" @click="newPurchase(this.purchaseData)" data-bs-dismiss="modal">Confirmar</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
                 </div> 
             </form>
-            <p>{{ msjPurchase }}</p>
         </div>
     </div>
 </template>
@@ -37,7 +58,7 @@ export default {
       selectedCripto: 'btc',
       money: 0,
       amount: 0,
-      msjPurchase: "",
+      purchaseData : null,
     }
   },
   computed: {
@@ -91,10 +112,9 @@ export default {
       }
     },
 
-    newPurchase() {
+    savePurchaseData(){
       if (this.money > 0 && this.amount > 0){
-          this.msjPurchase = "";
-          const purchaseData = {
+          this.purchaseData = {
           user_id: this.username,
           action: 'purchase',
           crypto_code: this.selectedCripto,
@@ -102,23 +122,19 @@ export default {
           money: this.money,
           datetime: new Date(),
         };
+      }
+    },
 
+    newPurchase(purchaseData) {
         this.$store.dispatch('transactions/newPurchase', purchaseData)
           .then((response) => {
-            this.msjPurchase = "Compra realizada con éxito!";
             console.log('Compra registrada con éxito', response);
             this.money = 0;
             this.amount = 0;
           })
           .catch((error) => {
-            this.msjPurchase = "Hubo un error al realizar la compra, intentelo nuevamente."
             console.error('Error al crear la compra:', error);
           });
-      } else {
-        this.msjPurchase = "Ingrese un monto a pagar mayor a 0 para realizar la compra.";
-      }
-
-      console.log(this.getHistory(this.username))
     },
 
   },
@@ -138,6 +154,10 @@ export default {
 
 #money{
     max-width: 100px;
+}
+
+h5, h6{
+  color: black;
 }
 
 </style>
