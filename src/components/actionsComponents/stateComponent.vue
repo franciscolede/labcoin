@@ -83,30 +83,30 @@ export default {
     },
 
     pesosBTC() {
-    const calculatedValue = (this.userBTC * this.bitcoinPrice.totalBid).toFixed(2);
+    const calculatedValue = (this.userBTC * this.bitcoinPrice.totalAsk).toFixed(2);
     return this.formatNumber(calculatedValue);
     },
 
     pesosETH() {
-    const calculatedValue = (this.userETH * this.ethereumPrice.totalBid).toFixed(2);
+    const calculatedValue = (this.userETH * this.ethereumPrice.totalAsk).toFixed(2);
     return this.formatNumber(calculatedValue);
     },
 
     pesosUSDC() {
-    const calculatedValue = (this.userUSDC * this.usdcPrice.totalBid).toFixed(2);
+    const calculatedValue = (this.userUSDC * this.usdcPrice.totalAsk).toFixed(2);
     return this.formatNumber(calculatedValue);
     },
 
     pesosUSDT() {
-    const calculatedValue = (this.userUSDT * this.usdtPrice.totalBid).toFixed(2);
+    const calculatedValue = (this.userUSDT * this.usdtPrice.totalAsk).toFixed(2);
     return this.formatNumber(calculatedValue);
     },
 
     totalPesos() {
-    const total = (this.userBTC * this.bitcoinPrice.totalBid) +
-                (this.userETH * this.ethereumPrice.totalBid) +
-                (this.userUSDC * this.usdcPrice.totalBid) +
-                (this.userUSDT * this.usdtPrice.totalBid);
+    const total = (this.userBTC * this.bitcoinPrice.totalAsk) +
+                (this.userETH * this.ethereumPrice.totalAsk) +
+                (this.userUSDC * this.usdcPrice.totalAsk) +
+                (this.userUSDT * this.usdtPrice.totalAsk);
     return this.formatNumber(total.toFixed(2));
 },
   },

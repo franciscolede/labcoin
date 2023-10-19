@@ -69,16 +69,16 @@ export default {
       'getUsdtPrice',
     ]),
     bitcoinPrice() {
-      return this.getBitcoinPrice.totalAsk;
+      return this.getBitcoinPrice.totalBid;
     },
     ethereumPrice() {
-      return this.getEthereumPrice.totalAsk;
+      return this.getEthereumPrice.totalBid;
     },
     usdcPrice() {
-      return this.getUsdcPrice.totalAsk;
+      return this.getUsdcPrice.totalBid;
     },
     usdtPrice() {
-      return this.getUsdtPrice.totalAsk;
+      return this.getUsdtPrice.totalBid;
     },
     ...mapGetters([
       'username'
@@ -102,13 +102,13 @@ export default {
 
     getSelectedPrice(selectedCripto) {
       if (selectedCripto === "btc") {
-        return this.getBitcoinPrice.ask;
+        return this.getBitcoinPrice.totalBid;
       } else if (selectedCripto === "eth") {
-        return this.getEthereumPrice.ask;
+        return this.getEthereumPrice.totalBid;
       } else if (selectedCripto === "usdc") {
-        return this.getUsdcPrice.ask;
+        return this.getUsdcPrice.totalBid;
       } else if (selectedCripto === "usdt") {
-        return this.getUsdtPrice.ask;
+        return this.getUsdtPrice.totalBid;
       }
     },
 

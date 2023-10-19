@@ -5,29 +5,29 @@
             <div class="col">
                 <img src="@/assets/btc.png" alt="Bitcoin">
                 <h5>Bitcoin</h5>
-                <h3>Compra: ${{ bitcoinPrice.totalAsk }}</h3>
-                <h3>Venta: ${{ bitcoinPrice.totalBid }}</h3>
+                <h3>Compra: ${{ bitcoinPrice.totalBid }}</h3>
+                <h3>Venta: ${{ bitcoinPrice.totalAsk }}</h3>
             </div>
 
             <div class="col">
                 <img src="@/assets/eth.png" alt="Ethereum">
                 <h5>Ethereum</h5>
-                <h3>Compra: ${{ ethereumPrice.totalAsk }}</h3>
-                <h3>Venta: ${{ ethereumPrice.totalBid }}</h3>
+                <h3>Compra: ${{ ethereumPrice.totalBid }}</h3>
+                <h3>Venta: ${{ ethereumPrice.totalAsk }}</h3>
             </div>
 
             <div class="col">
                 <img src="@/assets/usdc.png" alt="USD Coin">
                 <h5>USD Coin</h5>
-                <h3>Compra: ${{ usdcPrice.totalAsk }}</h3>
-                <h3>Venta: ${{ usdcPrice.totalBid }}</h3>
+                <h3>Compra: ${{ usdcPrice.totalBid }}</h3>
+                <h3>Venta: ${{ usdcPrice.totalAsk }}</h3>
             </div>
 
             <div class="col">
                 <img src="@/assets/usdt.png" alt="Tether USDt">
                 <h5>Tether USDt</h5>
-                <h3>Compra: ${{ usdtPrice.totalAsk }}</h3>
-                <h3>Venta: ${{ usdtPrice.totalBid }}</h3>
+                <h3>Compra: ${{ usdtPrice.totalBid }}</h3>
+                <h3>Venta: ${{ usdtPrice.totalAsk }}</h3>
             </div>
         </div>
     </div>
