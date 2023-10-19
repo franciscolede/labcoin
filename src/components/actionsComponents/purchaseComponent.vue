@@ -48,16 +48,16 @@ export default {
       'getUsdtPrice',
     ]),
     bitcoinPrice() {
-      return this.getBitcoinPrice.ask;
+      return this.getBitcoinPrice.totalAsk;
     },
     ethereumPrice() {
-      return this.getEthereumPrice.ask;
+      return this.getEthereumPrice.totalAsk;
     },
     usdcPrice() {
-      return this.getUsdcPrice.ask;
+      return this.getUsdcPrice.totalAsk;
     },
     usdtPrice() {
-      return this.getUsdtPrice.ask;
+      return this.getUsdtPrice.totalAsk;
     },
     ...mapGetters([
       'username'

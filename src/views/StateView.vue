@@ -25,8 +25,5 @@
   </script>
   
   <style scoped>
-  .sale-page {
-    padding: 10px;
-  }
   </style>
   

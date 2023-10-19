@@ -5,14 +5,37 @@
       <ul>
         <li v-for="(transaction, index) in transactions" :key="transaction._id">
           <div class="transaction">
-            <p>Transacción {{ index + 1 }}</p>
+            <p>Transacción {{ transactions.length - index }}</p>
             <div class="transaction-box" :class="{'purchase': transaction.action === 'purchase'}">
               <p>Tipo de cripto: {{ transaction.crypto_code }}</p>
               <p>Acción realizada: {{ transaction.action }}</p>
               <p>Cantidad de cripto: {{ transaction.crypto_amount }}</p>
               <p>Dinero en pesos: {{ transaction.money }}</p>
-              <p>id de la transacción: {{ transaction._id }}</p>
+              <p>Id de la transacción: {{ transaction._id }}</p>
               <p>Fecha: {{ transaction.datetime }}</p>
+            </div>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete">Eliminar Nº{{ transactions.length - index }}</button>
+            
+            <div class="modal" id="confirmDelete">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <h5 class="modal-title">Eliminar transacción</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+
+                  <div class="modal-body">
+                    <h6>Confirme que está seguro de eliminar esta transacción.</h6>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button @click="deleteTransactionLocal(transaction._id)" class="btn btn-danger">Eliminar</button>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
         </li>
@@ -36,12 +59,16 @@ export default {
     ...mapGetters(['username']),
   },
   methods: {
-    ...mapActions('transactions', ['getHistory']),
+    ...mapActions('transactions', ['getHistory', 'deleteTransaction']),
+
+    deleteTransactionLocal(transactionId){
+      this.deleteTransaction(transactionId);
+    },
   },
   created() {
     this.getHistory(this.username)
       .then((response) => {
-        this.transactions = response;
+        this.transactions = response.reverse();
       })
       .catch((error) => {
         console.error('Error al obtener el historial:', error);
@@ -83,6 +110,10 @@ p{
 
 .sale{
   background-color: rgba(197, 36, 98, 0.534);
+}
+
+h5, h6{
+  color: black;
 }
 
 </style>

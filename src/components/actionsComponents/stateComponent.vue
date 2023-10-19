@@ -2,34 +2,34 @@
     <div class="container">
         <div class="container">
             <div class="row">
-              <div class="col">Cripto</div>
+              <div class="col left">Cripto</div>
               <div class="col">Cantidad</div>
-              <div class="col">Dinero</div>
+              <div class="col right">Dinero</div>
             </div>
             <div class="row">
-              <div class="col">BTC:</div>
+              <div class="col left">BTC:</div>
               <div class="col"><p>{{ userBTC.toFixed(6) }}</p></div>
-              <div class="col">{{ pesosBTC }}</div>
+              <div class="col right">${{ pesosBTC }}</div>
             </div>
             <div class="row">
-              <div class="col">ETH:</div>
+              <div class="col left">ETH:</div>
               <div class="col"><p>{{ userETH.toFixed(6) }}</p></div>
-              <div class="col">{{ pesosETH }}</div>
+              <div class="col right">${{ pesosETH }}</div>
             </div>
             <div class="row">
-              <div class="col">USDC:</div>
+              <div class="col left">USDC:</div>
               <div class="col"><p>{{ userUSDC.toFixed(6) }}</p></div>
-              <div class="col">{{ pesosUSDC }}</div>
+              <div class="col right">${{ pesosUSDC }}</div>
             </div>
             <div class="row">
-              <div class="col">USDT:</div>
+              <div class="col left">USDT:</div>
               <div class="col"><p>{{ userUSDT.toFixed(6) }}</p></div>
-              <div class="col">{{ pesosUSDT }}</div>
+              <div class="col right">${{ pesosUSDT }}</div>
             </div>
             <div class="row">
-              <div class="col">TOTAL:</div>
+              <div class="col left">TOTAL:</div>
               <div class="col"></div>
-              <div class="col"> {{totalPesos}} </div>
+              <div class="col right"> ${{totalPesos}} </div>
             </div>
         </div>
     </div>
@@ -83,30 +83,30 @@ export default {
     },
 
     pesosBTC() {
-    const calculatedValue = (this.userBTC * this.bitcoinPrice.bid).toFixed(2);
+    const calculatedValue = (this.userBTC * this.bitcoinPrice.totalBid).toFixed(2);
     return this.formatNumber(calculatedValue);
     },
 
     pesosETH() {
-    const calculatedValue = (this.userETH * this.ethereumPrice.bid).toFixed(2);
+    const calculatedValue = (this.userETH * this.ethereumPrice.totalBid).toFixed(2);
     return this.formatNumber(calculatedValue);
     },
 
     pesosUSDC() {
-    const calculatedValue = (this.userUSDC * this.usdcPrice.bid).toFixed(2);
+    const calculatedValue = (this.userUSDC * this.usdcPrice.totalBid).toFixed(2);
     return this.formatNumber(calculatedValue);
     },
 
     pesosUSDT() {
-    const calculatedValue = (this.userUSDT * this.usdtPrice.bid).toFixed(2);
+    const calculatedValue = (this.userUSDT * this.usdtPrice.totalBid).toFixed(2);
     return this.formatNumber(calculatedValue);
     },
 
     totalPesos() {
-    const total = (this.userBTC * this.bitcoinPrice.bid) +
-                (this.userETH * this.ethereumPrice.bid) +
-                (this.userUSDC * this.usdcPrice.bid) +
-                (this.userUSDT * this.usdtPrice.bid);
+    const total = (this.userBTC * this.bitcoinPrice.totalBid) +
+                (this.userETH * this.ethereumPrice.totalBid) +
+                (this.userUSDC * this.usdcPrice.totalBid) +
+                (this.userUSDT * this.usdtPrice.totalBid);
     return this.formatNumber(total.toFixed(2));
 },
   },
@@ -136,4 +136,11 @@ export default {
 </script>
 
 <style scoped>
+.left{
+  text-align: end;
+}
+
+.right{
+  text-align: start;
+}
 </style>
