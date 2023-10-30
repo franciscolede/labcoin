@@ -3,7 +3,7 @@
     <h1>Historial de transacciones de {{ username }}</h1>
     <div class="container-xs">
       <ul>
-        <li v-for="(transaction, index) in transactions" :key="transaction._id">
+        <li v-for="(transaction, index) in transactions" :key="transaction.datetime">
           <div class="transaction">
             <p>Transacción {{ transactions.length - index }}</p>
             <div class="transaction-box" :class="{'purchase': transaction.action === 'purchase'}">
@@ -14,7 +14,7 @@
               <p>Id de la transacción: {{ transaction._id }}</p>
               <p>Fecha: {{ transaction.datetime }}</p>
             </div>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete">Eliminar Nº{{ transactions.length - index }}</button>
+            <button @click="saveTransactionId(transaction._id)" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete">Eliminar Nº{{ transactions.length - index }}</button>
             
             <div class="modal" id="confirmDelete">
               <div class="modal-dialog">
@@ -31,7 +31,7 @@
 
                   <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button @click="deleteTransactionLocal(transaction._id)" class="btn btn-danger">Eliminar</button>
+                    <button @click="deleteTransactionLocal(deleteTransactionId)" class="btn btn-danger">Eliminar</button>
                   </div>
 
                 </div>
@@ -53,6 +53,7 @@ export default {
   data() {
     return {
       transactions: [],
+      deleteTransactionId: null,
     };
   },
   computed: {
@@ -64,11 +65,16 @@ export default {
     deleteTransactionLocal(transactionId){
       this.deleteTransaction(transactionId);
     },
+
+    saveTransactionId(transactionId) {
+    this.deleteTransactionId = transactionId;
+  },
   },
   created() {
     this.getHistory(this.username)
       .then((response) => {
-        this.transactions = response.reverse();
+        console.log(response)
+        this.transactions = response.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
       })
       .catch((error) => {
         console.error('Error al obtener el historial:', error);

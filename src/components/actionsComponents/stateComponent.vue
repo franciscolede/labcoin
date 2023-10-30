@@ -9,27 +9,27 @@
           <div class="row">
             <div class="col left">BTC:</div>
             <div class="col"><p>{{ userBTC.toFixed(6) }}</p></div>
-            <div class="col right">${{ formatNumber((userBTC * pesosBTC).toFixed(2))  }}</div>
+            <div class="col right"><p>${{ formatNumber((userBTC * pesosBTC).toFixed(2))  }}</p></div>
           </div>
           <div class="row">
             <div class="col left">ETH:</div>
             <div class="col"><p>{{ userETH.toFixed(6) }}</p></div>
-            <div class="col right">${{ formatNumber((userETH * pesosETH).toFixed(2))  }}</div>
+            <div class="col right"><p>${{ formatNumber((userETH * pesosETH).toFixed(2))  }}</p></div>
           </div>
           <div class="row">
             <div class="col left">USDC:</div>
             <div class="col"><p>{{ userUSDC.toFixed(6) }}</p></div>
-            <div class="col right">${{ formatNumber((userUSDC * pesosUSDC).toFixed(2))  }}</div>
+            <div class="col right"><p>${{ formatNumber((userUSDC * pesosUSDC).toFixed(2))  }}</p></div>
           </div>
           <div class="row">
             <div class="col left">USDT:</div>
             <div class="col"><p>{{ userUSDT.toFixed(6) }}</p></div>
-            <div class="col right">${{ formatNumber((userUSDT * pesosUSDT).toFixed(2))  }}</div>
+            <div class="col right"><p>${{ formatNumber((userUSDT * pesosUSDT).toFixed(2))  }}</p></div>
           </div>
           <div class="row">
             <div class="col left">TOTAL:</div>
             <div class="col"></div>
-            <div class="col right"> ${{ formatNumber(totalPesos.toFixed(2)) }}</div>
+            <div class="col right"><p> ${{ formatNumber(totalPesos.toFixed(2)) }}</p></div>
           </div>
       </div>
   </div>
@@ -105,5 +105,9 @@ methods: {
 <style scoped>
 .left {
 text-align: end;
+}
+
+.right {
+text-align: start;
 }
 </style>
