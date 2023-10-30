@@ -26,6 +26,16 @@ const actions = {
     }
   },
 
+  async newSale(_, saleData) {
+    try {
+      const response = await apiClient.post('', saleData);
+
+      return response.data;
+    } catch (error) {
+      console.error('Error al crear la transacción:', error);
+    }
+  },
+
   async getHistory(_, username) {
     try {
       const response = await apiClient.get(`https://laboratorio3-f36a.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
@@ -41,6 +51,35 @@ const actions = {
       location.reload();
     } catch (error) {
       console.error('Error al eliminar la transacción:', error);
+    }
+  },
+
+  async getState(_, username) {
+    try {
+      const userCriptos = {
+        BTC: 0,
+        ETH: 0,
+        USDC: 0,
+        USDT: 0,
+      };
+  
+      const response = await apiClient.get(`https://laboratorio3-f36a.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
+      
+      for (const transaction of response.data) {
+          if (transaction.crypto_code === 'btc') {
+            userCriptos.BTC += parseFloat(transaction.crypto_amount);
+          } else if (transaction.crypto_code === 'eth') {
+            userCriptos.ETH += parseFloat(transaction.crypto_amount);
+          } else if (transaction.crypto_code === 'usdc') {
+            userCriptos.USDC += parseFloat(transaction.crypto_amount);
+          } else if (transaction.crypto_code === 'usdt') {
+            userCriptos.USDT += parseFloat(transaction.crypto_amount);
+          }
+      }
+  
+      return userCriptos;
+    } catch (error) {
+      console.error('Error al devolver el estado de la cuenta:', error);
     }
   },
 

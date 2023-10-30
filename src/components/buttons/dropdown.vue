@@ -12,7 +12,7 @@
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <router-link to="/history" class="dropdown-item">Historial de movimientos</router-link>
-        <li><a class="dropdown-item" href="#">Lectura, edición y borrado</a></li>
+        <!-- <li><a class="dropdown-item" href="#">Lectura, edición y borrado</a></li> -->
         <router-link to="/state" class="dropdown-item">Análisis del estado actual</router-link>
         <li><a class="dropdown-item" href="#">Análisis de inversiones</a></li>
       </ul>

@@ -9,15 +9,15 @@
                 </router-link>
             </div>
 
-            <div class="col">
+            <!-- <div class="col">
                 <router-link to="/">
                 <img src="@/assets/lecturaedicionborrado.png" alt="edicion">
                 <h5>Lectura, edición y borrado.</h5>
                 </router-link>
-            </div>
+            </div> -->
 
             <div class="col">
-                <router-link to="/">
+                <router-link to="/state">
                 <img src="@/assets/analisis-actual.png" alt="analisis actual">
                 <h5>Análisis del estado actual.</h5>
                 </router-link>
