@@ -9,22 +9,27 @@
           <div class="row">
             <div class="col left">BTC:</div>
             <div class="col"><p>{{ userBTC.toFixed(6) }}</p></div>
+            <div class="col right">{{ (userBTC * pesosBTC).toFixed(2)  }}</div>
           </div>
           <div class="row">
             <div class="col left">ETH:</div>
             <div class="col"><p>{{ userETH.toFixed(6) }}</p></div>
+            <div class="col right">{{ (userETH * pesosETH).toFixed(2)  }}</div>
           </div>
           <div class="row">
             <div class="col left">USDC:</div>
             <div class="col"><p>{{ userUSDC.toFixed(6) }}</p></div>
+            <div class="col right">{{ (userUSDC * pesosUSDC).toFixed(2)  }}</div>
           </div>
           <div class="row">
             <div class="col left">USDT:</div>
             <div class="col"><p>{{ userUSDT.toFixed(6) }}</p></div>
+            <div class="col right">{{ (userUSDT * pesosUSDT).toFixed(2)  }}</div>
           </div>
           <div class="row">
             <div class="col left">TOTAL:</div>
             <div class="col"></div>
+            <div class="col right"> ${{ totalPesos.toFixed(2) }}</div>
           </div>
       </div>
   </div>
@@ -40,34 +45,55 @@ data() {
     userETH: 0,
     userUSDC: 0,
     userUSDT: 0,
+
+    pesosBTC: 0,
+    pesosETH: 0,
+    pesosUSDC: 0,
+    pesosUSDT: 0,
+
+    totalPesos: 0,
   };
 },
 
 created() {
-  this.fetchState(); // Llama a la acción Vuex para obtener el estado de la cuenta.
+  this.fetchState();
 },
 
 computed: {
   ...mapGetters(['username']),
-
-  
+  ...mapGetters('criptos', [
+      'getBitcoinPrice',
+      'getEthereumPrice',
+      'getUsdcPrice',
+      'getUsdtPrice',
+    ]),
 },
 
 methods: {
   ...mapActions('transactions', ['getState']), // Mapea la acción desde el módulo Vuex.
 
   fetchState() {
-    this.getState(this.username)
-      .then((response) => {
-        this.userBTC = response.BTC;
-        this.userETH = response.ETH;
-        this.userUSDC = response.USDC;
-        this.userUSDT = response.USDT;
-      })
-      .catch((error) => {
-        console.error('Error al obtener el estado de la cuenta:', error);
-      });
-  },
+      this.getState(this.username)
+        .then((response) => {
+          this.userBTC = response.BTC;
+          this.userETH = response.ETH;
+          this.userUSDC = response.USDC;
+          this.userUSDT = response.USDT;
+
+          this.pesosBTC = this.getBitcoinPrice.ask;
+          this.pesosETH = this.getEthereumPrice.ask;
+          this.pesosUSDC = this.getUsdcPrice.ask;
+          this.pesosUSDT = this.getUsdtPrice.ask;
+          this.totalPesos =
+            this.userBTC * this.pesosBTC +
+            this.userETH * this.pesosETH +
+            this.userUSDC * this.pesosUSDC +
+            this.userUSDT * this.pesosUSDT;
+        })
+        .catch((error) => {
+          console.error('Error al obtener el estado de la cuenta:', error);
+        });
+    },
 },
 };
 </script>
