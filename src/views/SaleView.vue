@@ -27,7 +27,5 @@ export default {
 .sale-component {
   padding: 20px 0px;
 }
-.sale-page {
-  padding: 10px;
-}
+
 </style>

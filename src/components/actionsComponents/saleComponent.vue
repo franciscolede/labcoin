@@ -34,7 +34,7 @@
                 </div>
                 <div class="btn-save">
                     <button type="submit" class="btn btn-outline-light"
-                        :disabled="amount === 0 || userAmountSelected <= amount" data-bs-toggle="modal"
+                        :disabled="amount === 0 || userAmountSelected < amount" data-bs-toggle="modal"
                         data-bs-target="#confirmSale">
                         Confirmar venta
                     </button>
@@ -94,16 +94,16 @@ export default {
             'getUsdtPrice',
         ]),
         bitcoinPrice() {
-            return this.getBitcoinPrice.totalBid;
+            return this.getBitcoinPrice.totalAsk;
         },
         ethereumPrice() {
-            return this.getEthereumPrice.totalBid;
+            return this.getEthereumPrice.totalAsk;
         },
         usdcPrice() {
-            return this.getUsdcPrice.totalBid;
+            return this.getUsdcPrice.totalAsk;
         },
         usdtPrice() {
-            return this.getUsdtPrice.totalBid;
+            return this.getUsdtPrice.totalAsk;
         },
         ...mapGetters([
             'username'
@@ -126,16 +126,16 @@ export default {
         getSelectedPrice(selectedCripto) {
             if (selectedCripto === "btc") {
                 this.userAmountSelected = this.userBTC;
-                return this.getBitcoinPrice.totalBid;
+                return this.getBitcoinPrice.totalAsk;
             } else if (selectedCripto === "eth") {
                 this.userAmountSelected = this.userETH;
-                return this.getEthereumPrice.totalBid;
+                return this.getEthereumPrice.totalAsk;
             } else if (selectedCripto === "usdc") {
                 this.userAmountSelected = this.userUSDC;
-                return this.getUsdcPrice.totalBid;
+                return this.getUsdcPrice.totalAsk;
             } else if (selectedCripto === "usdt") {
                 this.userAmountSelected = this.userUSDT;
-                return this.getUsdtPrice.totalBid;
+                return this.getUsdtPrice.totalAsk;
             }
         },
 

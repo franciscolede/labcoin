@@ -1,38 +1,36 @@
 <template>
-  <div class="container">
       <div class="container">
           <div class="row">
             <div class="col left">Cripto</div>
-            <div class="col">Cantidad</div>
+            <div class="col center center">Cantidad</div>
             <div class="col right">Dinero</div>
           </div>
-          <div class="row">
+          <div class="row" v-if="userBTC">
             <div class="col left">BTC:</div>
-            <div class="col"><p>{{ userBTC.toFixed(6) }}</p></div>
+            <div class="col center"><p>{{ userBTC.toFixed(6) }}</p></div>
             <div class="col right"><p>${{ formatNumber((userBTC * pesosBTC).toFixed(2))  }}</p></div>
           </div>
-          <div class="row">
+          <div class="row" v-if="userETH">
             <div class="col left">ETH:</div>
-            <div class="col"><p>{{ userETH.toFixed(6) }}</p></div>
+            <div class="col center"><p>{{ userETH.toFixed(6) }}</p></div>
             <div class="col right"><p>${{ formatNumber((userETH * pesosETH).toFixed(2))  }}</p></div>
           </div>
-          <div class="row">
+          <div class="row" v-if="userUSDC">
             <div class="col left">USDC:</div>
-            <div class="col"><p>{{ userUSDC.toFixed(6) }}</p></div>
+            <div class="col center"><p>{{ userUSDC.toFixed(6) }}</p></div>
             <div class="col right"><p>${{ formatNumber((userUSDC * pesosUSDC).toFixed(2))  }}</p></div>
           </div>
-          <div class="row">
+          <div class="row" v-if="userUSDT">
             <div class="col left">USDT:</div>
-            <div class="col"><p>{{ userUSDT.toFixed(6) }}</p></div>
+            <div class="col center"><p>{{ userUSDT.toFixed(6) }}</p></div>
             <div class="col right"><p>${{ formatNumber((userUSDT * pesosUSDT).toFixed(2))  }}</p></div>
           </div>
           <div class="row">
             <div class="col left">TOTAL:</div>
-            <div class="col"></div>
+            <div class="col center"></div>
             <div class="col right"><p> ${{ formatNumber(totalPesos.toFixed(2)) }}</p></div>
           </div>
       </div>
-  </div>
 </template>
 
 <script>
@@ -103,11 +101,28 @@ methods: {
 </script>
 
 <style scoped>
-.left {
-text-align: end;
+
+.container{
+  width: 50%;
+}
+
+.row{
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  padding: 3px;
+}
+
+.center{
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+/* .left {
+text-align: ce;
 }
 
 .right {
 text-align: start;
-}
+} */
 </style>

@@ -5,6 +5,7 @@ import SaleView from '../views/SaleView.vue'
 import HistoryView from '../views/HistoryView.vue'
 import LoginView from '../views/LoginView.vue'
 import StateView from '../views/StateView.vue'
+import InvestmentView from '../views/InvestmentView.vue'
 import store from '@/store'
 
 const routes = [
@@ -41,6 +42,12 @@ const routes = [
     path: '/state',
     name: 'state',
     component: StateView,
+    meta: { requiresAuth: true } // Require authentication
+  },
+  {
+    path: '/investment',
+    name: 'investment',
+    component: InvestmentView,
     meta: { requiresAuth: true } // Require authentication
   },
 ]

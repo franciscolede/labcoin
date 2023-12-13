@@ -24,7 +24,7 @@
             </div>
 
             <div class="col">
-                <router-link to="/">
+                <router-link to="/investment">
                 <img src="@/assets/analisis-inversiones.png" alt="analisis inversiones">
                 <h5>Análisis de inversiones.</h5>
                 </router-link>

@@ -157,11 +157,11 @@ p{
 }
 
 .purchase {
-  background-color: rgba(29, 182, 136, 0.534);
+  background-color: rgba(197, 36, 98, 0.534);
 }
 
 .sale{
-  background-color: rgba(197, 36, 98, 0.534);
+  background-color: rgba(29, 182, 136, 0.534);
 }
 
 h5, h6{
