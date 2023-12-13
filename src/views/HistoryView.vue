@@ -37,6 +37,33 @@
                 </div>
               </div>
             </div>
+
+            <!---------------- -->
+
+            <button @click="saveTransactionId(transaction._id)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmEdit">Editar Nº{{ transactions.length - index }}</button>
+            
+            <div class="modal" id="confirmEdit">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <h5 class="modal-title">Editar transacción</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+
+                  <div class="modal-body">
+                    <h6>Ingrese el nuevo monto de {{transaction.crypto_code}}:</h6>
+                    <input class="input" type="number" id="crypto_amount" v-model="crypto_amount" min="0" step="0.01" required>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button @click="editTransactionLocal(transaction._id, crypto_amount)" class="btn btn-primary">Editar</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
           </div>
         </li>
       </ul>
@@ -54,6 +81,9 @@ export default {
     return {
       transactions: [],
       deleteTransactionId: null,
+      editTransactionId: null,
+
+      crypto_amount: 0,
     };
   },
   computed: {
@@ -65,6 +95,21 @@ export default {
     deleteTransactionLocal(transactionId){
       this.deleteTransaction(transactionId);
     },
+
+    async editTransactionLocal(transactionId, crypto_amount) {
+    try {
+      if (!crypto_amount) {
+        console.error('El nuevo valor de dinero no está definido.');
+        return;
+      }
+
+      const newValues = { crypto_amount };  // Crear el objeto newValues con el nuevo valor de dinero
+      await this.$store.dispatch('transactions/editTransaction', { transactionId, newValues: { crypto_amount } });
+      // Puedes hacer algo después de editar la transacción si es necesario
+    } catch (error) {
+      console.error('Error al editar la transacción:', error);
+    }
+  },
 
     saveTransactionId(transactionId) {
     this.deleteTransactionId = transactionId;
