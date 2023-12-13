@@ -6,7 +6,7 @@
         <li v-for="(transaction, index) in transactions" :key="transaction.datetime">
           <div class="transaction">
             <p>Transacción {{ transactions.length - index }}</p>
-            <div class="transaction-box" :class="{'purchase': transaction.action === 'purchase'}">
+            <div class="transaction-box" :class="{'purchase': transaction.action === 'purchase', 'sale': transaction.action === 'sale'}">
               <p>Tipo de cripto: {{ transaction.crypto_code }}</p>
               <p>Acción realizada: {{ transaction.action }}</p>
               <p>Cantidad de cripto: {{ transaction.crypto_amount }}</p>
@@ -71,15 +71,15 @@ export default {
   },
   },
   created() {
-    this.getHistory(this.username)
-      .then((response) => {
-        console.log(response)
-        this.transactions = response.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
-      })
-      .catch((error) => {
-        console.error('Error al obtener el historial:', error);
-      });
-  },
+  this.getHistory(this.username)
+    .then((response) => {
+      console.log(response);
+      this.transactions = response.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+    })
+    .catch((error) => {
+      console.error('Error al obtener el historial:', error);
+    });
+},
 };
 </script>
 

@@ -13,7 +13,7 @@
                 </div>
                 <div class="ars-money">
                     <label for="money">Monto a pagar(en ARS):</label>
-                    <input class="input" type="number" id="money" v-model="money" min="0" step="1" @input="calculateAmount" required>
+                    <input class="input" type="number" id="money" v-model="money" min="0" step="0.01" @input="calculateAmount" required>
                 </div>
                 <div class="cripto-amount">
                     <label>Cantidad de {{ selectedCripto }} a comprar:</label>
@@ -37,7 +37,7 @@
 
                           <div class="modal-footer">
                             <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button class="btn btn-danger" @click="newPurchase(this.purchaseData)" data-bs-dismiss="modal">Confirmar</button>
+                            <button class="btn btn-danger" @click="newTransaction(this.purchaseData)" data-bs-dismiss="modal">Confirmar</button>
                           </div>
 
                         </div>
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     ...mapActions('criptos', ['fetchCryptosPrices']),
-    ...mapActions('transactions', ['newPurchase','getHistory']),
+    ...mapActions('transactions', ['newTransaction','getHistory']),
 
     calculateAmount() {
       const selectedCriptoPrice = this.getSelectedPrice(this.selectedCripto);
@@ -97,7 +97,7 @@ export default {
       }
 
 
-      this.amount = (parseFloat(this.money) / parseFloat(selectedCriptoPrice)).toFixed(6);//toFixed para la cantidad de decimales
+      this.amount = parseFloat((parseFloat(this.money) / parseFloat(selectedCriptoPrice)).toFixed(6));
     },
 
     getSelectedPrice(selectedCripto) {
@@ -125,8 +125,8 @@ export default {
       }
     },
 
-    newPurchase(purchaseData) {
-        this.$store.dispatch('transactions/newPurchase', purchaseData)
+    newTransaction(purchaseData) {
+        this.$store.dispatch('transactions/newTransaction', purchaseData)
           .then((response) => {
             console.log('Compra registrada con éxito', response);
             this.money = 0;

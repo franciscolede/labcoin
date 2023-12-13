@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view id="content" />
+    <router-view/>
     <FooterApp/>
   </div>
 </template>

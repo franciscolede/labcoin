@@ -16,23 +16,16 @@ const mutations = {
 };
 
 const actions = {
-  async newPurchase(_, purchaseData) {
+  async newTransaction(_, transactionData) {
     try {
-      const response = await apiClient.post('', purchaseData);
-
+      console.log('Transaction Data:', transactionData);
+      const response = await apiClient.post('', transactionData);
       return response.data;
     } catch (error) {
       console.error('Error al crear la transacción:', error);
-    }
-  },
-
-  async newSale(_, saleData) {
-    try {
-      const response = await apiClient.post('', saleData);
-
-      return response.data;
-    } catch (error) {
-      console.error('Error al crear la transacción:', error);
+      if (error.response) {
+        console.log('Respuesta del servidor:', error.response.data);
+      }
     }
   },
 
@@ -66,15 +59,25 @@ const actions = {
       const response = await apiClient.get(`https://laboratorio3-f36a.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
       
       for (const transaction of response.data) {
-          if (transaction.crypto_code === 'btc') {
-            userCriptos.BTC += parseFloat(transaction.crypto_amount);
-          } else if (transaction.crypto_code === 'eth') {
-            userCriptos.ETH += parseFloat(transaction.crypto_amount);
-          } else if (transaction.crypto_code === 'usdc') {
-            userCriptos.USDC += parseFloat(transaction.crypto_amount);
-          } else if (transaction.crypto_code === 'usdt') {
-            userCriptos.USDT += parseFloat(transaction.crypto_amount);
+        if (transaction.crypto_code && transaction.action) {
+          switch (transaction.crypto_code) {
+            case 'btc':
+              userCriptos.BTC += transaction.action === 'purchase' ? parseFloat(transaction.crypto_amount) : -parseFloat(transaction.crypto_amount);
+              break;
+            case 'eth':
+              userCriptos.ETH += transaction.action === 'purchase' ? parseFloat(transaction.crypto_amount) : -parseFloat(transaction.crypto_amount);
+              break;
+            case 'usdc':
+              userCriptos.USDC += transaction.action === 'purchase' ? parseFloat(transaction.crypto_amount) : -parseFloat(transaction.crypto_amount);
+              break;
+            case 'usdt':
+              userCriptos.USDT += transaction.action === 'purchase' ? parseFloat(transaction.crypto_amount) : -parseFloat(transaction.crypto_amount);
+              break;
+            default:
+              break;
           }
+        } else {
+        }
       }
   
       return userCriptos;
