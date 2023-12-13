@@ -1,17 +1,6 @@
 <template>
     <div class="container">
         <div class="form-container">
-            Billetera de {{ username }}
-            <div class="row">
-                <div class="col">BTC<p>{{ userBTC.toFixed(6) }}</p>
-                </div>
-                <div class="col">ETH<p>{{ userETH.toFixed(6) }}</p>
-                </div>
-                <div class="col">USDC<p>{{ userUSDC.toFixed(6) }}</p>
-                </div>
-                <div class="col">USDT<p>{{ userUSDT.toFixed(6) }}</p>
-                </div>
-            </div>
             <hr>
             <form @submit.prevent="saveSaleData">
                 <div class="cripto-option">
