@@ -53,12 +53,17 @@
 
                   <div class="modal-body">
                     <h6>Ingrese el nuevo monto de {{transaction.crypto_code}}:</h6>
-                    <input class="input" type="number" id="crypto_amount" v-model="crypto_amount" min="0" step="0.01" required>
+                    <input class="input" type="number" id="crypto_amount" v-model="crypto_amount" min="0" step="0.01">
+
+                    <h6>Ingrese el nuevo monto de ARS:</h6>
+                    <input class="input" type="number" id="money" v-model="money" min="0" step="0.01">
                   </div>
+
+                  
 
                   <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button @click="editTransactionLocal(editTransactionId, crypto_amount)" class="btn btn-primary">Editar</button>
+                    <button @click="editTransactionLocal(editTransactionId, crypto_amount, money)" class="btn btn-primary">Editar</button>
                   </div>
 
                 </div>
@@ -84,6 +89,7 @@ export default {
       editTransactionId: null,
 
       crypto_amount: 0,
+      money: 0,
     };
   },
   computed: {
@@ -96,20 +102,27 @@ export default {
       this.deleteTransaction(transactionId);
     },
 
-    async editTransactionLocal(transactionId, crypto_amount) {
-    try {
-      if (!crypto_amount) {
-        console.error('El nuevo valor de dinero no está definido.');
-        return;
-      }
+    async editTransactionLocal(transactionId, crypto_amount, money) {
+  try {
+    const newValues = {};
 
-      const newValues = { crypto_amount };  // Crear el objeto newValues con el nuevo valor de dinero
-      await this.$store.dispatch('transactions/editTransaction', { transactionId, newValues: { crypto_amount } });
-      // Puedes hacer algo después de editar la transacción si es necesario
-    } catch (error) {
-      console.error('Error al editar la transacción:', error);
+    if (crypto_amount > 0) {
+      newValues.crypto_amount = crypto_amount;
     }
-  },
+
+    if (money > 0) {
+      newValues.money = money;
+    }
+
+    if (Object.keys(newValues).length > 0) {
+      await this.$store.dispatch('transactions/editTransaction', { transactionId, newValues });
+    } else {
+      console.log('No se realizaron cambios ya que los valores no son mayores a 0.');
+    }
+  } catch (error) {
+    console.error('Error al editar la transacción:', error);
+  }
+},
 
     saveTransactionId(transactionId) {
     this.deleteTransactionId = transactionId;

@@ -11,26 +11,27 @@
                 <tr v-if="BTC">
                     <td>BITCOIN</td>
                     <td :class="{ 'table-success': userBTC > 0 }" v-if="userBTC >= 0">+{{userBTC.toFixed(6)}}</td>
-                    <td :class="{ 'table-danger': userBTC < 0 }" v-if="userBTC < 0">{{userBTC}}</td>
+                    <td :class="{ 'table-danger': userBTC < 0 }" v-if="userBTC < 0">{{userBTC.toFixed(6)}}</td>
                 </tr>
                 <tr v-if="ETH">
                     <td>ETHEREUM</td>
                     <td :class="{ 'table-success': userETH > 0 }" v-if="userETH >= 0">+{{userETH.toFixed(6)}}</td>
-                    <td :class="{ 'table-danger': userETH < 0 }" v-if="userETH < 0">{{userETH}}</td>
+                    <td :class="{ 'table-danger': userETH < 0 }" v-if="userETH < 0">{{userETH.toFixed(6)}}</td>
                 </tr>
                 <tr v-if="USDC">
                     <td>USDC</td>
                     <td :class="{ 'table-success': userUSDC > 0 }" v-if="userUSDC >= 0">+{{userUSDC.toFixed(6)}}</td>
-                    <td :class="{ 'table-danger': userUSDC < 0 }" v-if="userUSDC < 0">{{userUSDC}}</td>
+                    <td :class="{ 'table-danger': userUSDC < 0 }" v-if="userUSDC < 0">{{userUSDC.toFixed(6)}}</td>
                 </tr>
                 <tr v-if="USDT">
                     <td>USDT</td>
                     <td :class="{ 'table-success': userUSDT > 0 }" v-if="userUSDT >= 0">+{{userUSDT.toFixed(6)}}</td>
-                    <td :class="{ 'table-danger': userUSDT < 0 }" v-if="userUSDT < 0">{{userUSDT}}</td>
+                    <td :class="{ 'table-danger': userUSDT < 0 }" v-if="userUSDT < 0">{{userUSDT.toFixed(6)}}</td>
                 </tr>
                 <tr>
                     <td><b>TOTAL</b></td>
-                    <td><b>asd</b></td>
+                    <td :class="{ 'table-success': total > 0 }" v-if="total >= 0"><b>+{{total.toFixed(6)}}</b></td>
+                    <td :class="{ 'table-danger': total < 0 }" v-if="total < 0"><b>{{total.toFixed(6)}}</b></td>
                 </tr>
             </tbody>
         </table>
@@ -49,6 +50,7 @@ export default {
             userETH: 0,
             userUSDC: 0,
             userUSDT: 0,
+            total: 0,
 
             BTC: false,
             ETH: false,
@@ -75,6 +77,7 @@ export default {
                     console.log(response);
                     this.transactions = response.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
                     this.getInvestment(this.transactions)
+                    this.total = (this.userBTC + this.userETH + this.userUSDC + this.userUSDT);
                 })
                 .catch((error) => {
                     console.error('Error al obtener el historial:', error);
@@ -82,7 +85,6 @@ export default {
         },
 
         getInvestment(transactions) {
-            console.log("eee")
             for (const transaction of transactions) {
                 if (transaction.crypto_code === 'btc') {
                     this.BTC = true;

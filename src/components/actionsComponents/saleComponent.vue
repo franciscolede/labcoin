@@ -175,7 +175,7 @@ export default {
                     console.log('Venta registrada con éxito', response);
                     this.money = 0;
                     this.amount = 0;
-                    // location.reload();
+                    location.reload();
                 })
                 .catch((error) => {
                     console.error('Error al crear la venta:', error);
