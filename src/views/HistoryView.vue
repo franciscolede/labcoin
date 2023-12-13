@@ -58,7 +58,7 @@
 
                   <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button @click="editTransactionLocal(transaction._id, crypto_amount)" class="btn btn-primary">Editar</button>
+                    <button @click="editTransactionLocal(editTransactionId, crypto_amount)" class="btn btn-primary">Editar</button>
                   </div>
 
                 </div>
@@ -113,6 +113,7 @@ export default {
 
     saveTransactionId(transactionId) {
     this.deleteTransactionId = transactionId;
+    this.editTransactionId = transactionId;
   },
   },
   created() {
