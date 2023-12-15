@@ -1,108 +1,94 @@
 <template>
-    <div class="container mt-5">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Criptomoneda</th>
-                    <th scope="col">Resultado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-if="BTC">
-                    <td>BITCOIN</td>
-                    <td :class="{ 'table-success': userBTC > 0 }" v-if="userBTC >= 0">+{{userBTC.toFixed(6)}}</td>
-                    <td :class="{ 'table-danger': userBTC < 0 }" v-if="userBTC < 0">{{userBTC.toFixed(6)}}</td>
-                </tr>
-                <tr v-if="ETH">
-                    <td>ETHEREUM</td>
-                    <td :class="{ 'table-success': userETH > 0 }" v-if="userETH >= 0">+{{userETH.toFixed(6)}}</td>
-                    <td :class="{ 'table-danger': userETH < 0 }" v-if="userETH < 0">{{userETH.toFixed(6)}}</td>
-                </tr>
-                <tr v-if="USDC">
-                    <td>USDC</td>
-                    <td :class="{ 'table-success': userUSDC > 0 }" v-if="userUSDC >= 0">+{{userUSDC.toFixed(6)}}</td>
-                    <td :class="{ 'table-danger': userUSDC < 0 }" v-if="userUSDC < 0">{{userUSDC.toFixed(6)}}</td>
-                </tr>
-                <tr v-if="USDT">
-                    <td>USDT</td>
-                    <td :class="{ 'table-success': userUSDT > 0 }" v-if="userUSDT >= 0">+{{userUSDT.toFixed(6)}}</td>
-                    <td :class="{ 'table-danger': userUSDT < 0 }" v-if="userUSDT < 0">{{userUSDT.toFixed(6)}}</td>
-                </tr>
-                <tr>
-                    <td><b>TOTAL</b></td>
-                    <td :class="{ 'table-success': total > 0 }" v-if="total >= 0"><b>+{{total.toFixed(6)}}</b></td>
-                    <td :class="{ 'table-danger': total < 0 }" v-if="total < 0"><b>{{total.toFixed(6)}}</b></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div class="container mt-5">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Criptomoneda</th>
+          <th scope="col">Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="cryptoInfo in transactionsInvestment" :key="cryptoInfo.cryptoCode">
+          <td>{{ cryptoInfo.crypto_code.toUpperCase() }}</td>
+          <td :class="{ 'table-success': cryptoInfo.amount > 0, 'table-danger': cryptoInfo.amount < 0 }">
+            {{ cryptoInfo.amount >= 0 ? '+' : '' }}{{ Number(cryptoInfo.amount).toFixed(2) }}
+          </td>
+        </tr>
+        <tr>
+          <td><b>TOTAL</b></td>
+          <td :class="{ 'table-success': total > 0, 'table-danger': total < 0 }">
+            <b>{{ total >= 0 ? '+' : '' }}{{ total.toFixed(2) }}</b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
-
+  
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    data() {
-        return {
-            transactions: [],
+  data() {
+    return {
+      transactions: [],
+      transactionsInvestment: [],
+      total: 0,
+    };
+  },
 
-            userBTC: 0,
-            userETH: 0,
-            userUSDC: 0,
-            userUSDT: 0,
-            total: 0,
 
-            BTC: false,
-            ETH: false,
-            USDC: false,
-            USDT: false,
+  computed: {
+    ...mapGetters(['username']),
+  },
 
-        };
+  async created() {
+    await this.fetchHistory();
+    this.getInvestment(this.transactions);
+  },
+
+  methods: {
+    ...mapActions('transactions', ['getHistory']),
+
+    async fetchHistory() {
+      try {
+        const response = await this.getHistory(this.username);
+        this.transactions = response;
+      } catch (error) {
+        console.error('Error al obtener el historial:', error);
+      }
     },
 
-    created() {
-        this.fetchHistory();
-    },
+    getInvestment(transactions) {
+      this.transactionsInvestment = transactions.reduce((result, transaction) => {
+        if (transaction.crypto_code && transaction.action) {
+          const cryptoCode = transaction.crypto_code.toLowerCase();
+          const index = result.findIndex((el) => el.crypto_code === cryptoCode);
 
-    computed: {
-        ...mapGetters(['username']),
-    },
-
-    methods: {
-        ...mapActions('transactions', ['getHistory']),
-
-        fetchHistory() {
-            this.getHistory(this.username)
-                .then((response) => {
-                    console.log(response);
-                    this.transactions = response.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
-                    this.getInvestment(this.transactions)
-                    this.total = (this.userBTC + this.userETH + this.userUSDC + this.userUSDT);
-                })
-                .catch((error) => {
-                    console.error('Error al obtener el historial:', error);
-                });
-        },
-
-        getInvestment(transactions) {
-            for (const transaction of transactions) {
-                if (transaction.crypto_code === 'btc') {
-                    this.BTC = true;
-                    transaction.action === "purchase" ? this.userBTC -= transaction.money : this.userBTC += transaction.money;
-                } else if (transaction.crypto_code === 'eth') {
-                    this.ETH = true;
-                    transaction.action === "purchase" ? this.userETH -= transaction.money : this.userETH += transaction.money;
-                } else if (transaction.crypto_code === 'usdc') {
-                    this.USDC = true;
-                    transaction.action === "purchase" ? this.userUSDC -= transaction.money : this.userUSDC += transaction.money;
-                } else if (transaction.crypto_code === 'usdt') {
-                    this.USDT = true;
-                    transaction.action === "purchase" ? this.userUSDT -= transaction.money : this.userUSDT += transaction.money;
-                }
-            }
+          if (index === -1) {
+            console.log(transaction.crypto_code, transaction.money, transaction.action)
+            result.push({
+              crypto_code: cryptoCode,
+              amount: transaction.action === 'purchase' ? -Number(transaction.money) : Number(transaction.money),
+            });
+          } else {
+            result[index].amount += transaction.action === 'purchase' ? -Number(transaction.money) : Number(transaction.money);
+          }
         }
-    }
-}
-</script>
+        return result;
+      }, []);
 
+      let total = 0;
+
+      for (const transaction of this.transactionsInvestment) {
+        total += Number(transaction.amount);
+      }
+
+      this.total = total;
+    },
+  },
+};
+</script>
+  
 <style scoped></style>
+  

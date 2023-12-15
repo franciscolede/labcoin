@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
-import criptosModule from './criptos'
+import criptosModule from './criptos';
 import transactionsModule from './transactions';
 
 export default createStore({
@@ -19,7 +19,7 @@ export default createStore({
       state.username = username;
       state.isLoggedIn = true;
     },
-    
+
     logout(state) {
       state.username = '';
       state.isLoggedIn = false;
@@ -27,23 +27,20 @@ export default createStore({
   },
 
   actions: {
-    async login({ commit }, username) {
+    async login({ commit, dispatch }, username) {
       try {
-        // You can perform additional validation or checks here if needed
         commit('login', username);
-
+        // await dispatch('transactions/getState', username, { root: true });
       } catch (error) {
-        console.error('Error during login:', error);
+        console.error('Error durante el inicio de sesión:', error);
       }
     },
 
     async logout({ commit }) {
       try {
-        // You can perform additional actions during logout if needed
         commit('logout');
-
       } catch (error) {
-        console.error('Error during logout:', error);
+        console.error('Error durante el cierre de sesión:', error);
       }
     }
   },
@@ -58,4 +55,4 @@ export default createStore({
       storage: window.localStorage
     }).plugin
   ]
-})
+});

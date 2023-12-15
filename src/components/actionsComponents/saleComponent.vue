@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <Wallet />
         <div class="form-container">
             <hr>
             <form @submit.prevent="saveSaleData">
@@ -27,26 +28,21 @@
                         data-bs-target="#confirmSale">
                         Confirmar venta
                     </button>
-
                     <div class="modal" id="confirmSale">
                         <div class="modal-dialog">
                             <div class="modal-content">
-
                                 <div class="modal-header">
                                     <h5 class="modal-title">Confirmar venta</h5>
                                     <button class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
-
                                 <div class="modal-body">
                                     <h6>Confirme que está seguro de realizar la venta.</h6>
                                 </div>
-
                                 <div class="modal-footer">
                                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button class="btn btn-danger" @click="newTransaction(this.saleData)"
+                                    <button class="btn btn-danger" @click="newTransactionLocal(saleData)"
                                         data-bs-dismiss="modal">Confirmar</button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -55,82 +51,76 @@
         </div>
     </div>
 </template>
-
+  
 <script>
 import { mapGetters, mapActions } from 'vuex';
-
+import Wallet from '../wallet.vue';
 
 export default {
+    components: {
+        Wallet,
+    },
+
     data() {
         return {
             selectedCripto: 'btc',
+            selectedCriptoPrice: 0,
+
             money: 0,
             amount: 0,
+
             saleData: null,
 
-            userBTC: 0,
-            userETH: 0,
-            userUSDC: 0,
-            userUSDT: 0,
+            userWallet: {},
+
             userAmountSelected: 0,
         }
     },
     computed: {
+        ...mapGetters(['username']),
+        ...mapGetters('transactions', ['getWallet']),
         ...mapGetters('criptos', [
             'getBitcoinPrice',
             'getEthereumPrice',
             'getUsdcPrice',
             'getUsdtPrice',
         ]),
-        bitcoinPrice() {
-            return this.getBitcoinPrice.totalAsk;
-        },
-        ethereumPrice() {
-            return this.getEthereumPrice.totalAsk;
-        },
-        usdcPrice() {
-            return this.getUsdcPrice.totalAsk;
-        },
-        usdtPrice() {
-            return this.getUsdtPrice.totalAsk;
-        },
-        ...mapGetters([
-            'username'
-        ]),
     },
     methods: {
+        ...mapActions('transactions', ['newTransaction', 'getState']),
         ...mapActions('criptos', ['fetchCryptosPrices']),
-        ...mapActions('transactions', ['newTransaction', 'getHistory', 'getState']),
+
 
         calculateAmount() {
             const selectedCriptoPrice = this.getSelectedPrice(this.selectedCripto);
-
             if (this.amount < 0) {
                 this.amount = 0;
             }
-
+            this.getUserAmount(this.selectedCripto);
             this.money = parseFloat((this.amount * selectedCriptoPrice).toFixed(6));
         },
 
+
         getSelectedPrice(selectedCripto) {
-            if (selectedCripto === "btc") {
-                this.userAmountSelected = this.userBTC;
-                return this.getBitcoinPrice.totalAsk;
-            } else if (selectedCripto === "eth") {
-                this.userAmountSelected = this.userETH;
-                return this.getEthereumPrice.totalAsk;
-            } else if (selectedCripto === "usdc") {
-                this.userAmountSelected = this.userUSDC;
-                return this.getUsdcPrice.totalAsk;
-            } else if (selectedCripto === "usdt") {
-                this.userAmountSelected = this.userUSDT;
-                return this.getUsdtPrice.totalAsk;
+            switch (selectedCripto) {
+                case 'btc':
+                    return this.getBitcoinPrice.totalAsk;
+                case 'eth':
+                    return this.getEthereumPrice.totalAsk;
+                case 'usdc':
+                    return this.getUsdcPrice.totalAsk;
+                case 'usdt':
+                    return this.getUsdtPrice.totalAsk;
+                default:
+                    return 0;
             }
         },
 
         saveSaleData() {
             if (this.amount > 0) {
                 if (this.userAmountSelected >= this.amount) {
+                     this.money = this.money.toFixed(2);
+                    console.log("money:" + this.money)
                     this.saleData = {
                         user_id: this.username,
                         action: 'sale',
@@ -139,37 +129,29 @@ export default {
                         money: this.money,
                         datetime: new Date(),
                     };
+                } else {
+                    alert('Cripto insuficiente en la billetera.');
                 }
-                else { alert('Cripto insuficiente en la billetera.'); }
-
             }
         },
 
-        fetchState() {
-            this.getState(this.username)
-                .then((response) => {
-                    this.userBTC = response.BTC;
-                    this.userETH = response.ETH;
-                    this.userUSDC = response.USDC;
-                    this.userUSDT = response.USDT;
-                })
-                .catch((error) => {
-                    console.error('Error al obtener el estado de la cuenta:', error);
-                });
+        newTransactionLocal(saleData) {
+            this.newTransaction(saleData);
+            this.money = 0;
+            this.amount = 0;
+            // location.reload();
         },
 
-        newTransaction(saleData) {
-            this.$store.dispatch('transactions/newTransaction', saleData)
-                .then((response) => {
-                    console.log('Venta registrada con éxito', response);
-                    this.money = 0;
-                    this.amount = 0;
-                    location.reload();
-                })
-                .catch((error) => {
-                    console.error('Error al crear la venta:', error);
-                });
-        },
+        getUserAmount(selectedCripto) {
+            if (!this.getWallet) {
+                this.getState();
+            }
+
+            const wallet = this.getWallet || {};
+            const cryptoCode = selectedCripto.toLowerCase();
+            this.userAmountSelected = wallet[cryptoCode] || 0;
+        }
+
 
     },
     watch: {
@@ -179,12 +161,11 @@ export default {
         },
     },
     created() {
-        this.fetchState();
         this.fetchCryptosPrices();
     },
 };
 </script>
-
+  
 <style scoped>
 #money {
     max-width: 100px;
@@ -195,3 +176,4 @@ h6 {
     color: black;
 }
 </style>
+  
