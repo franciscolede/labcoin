@@ -20,7 +20,7 @@
                 </div>
                 <div class="ars-money">
                     <label>ARS:</label>
-                    {{ money }}
+                    {{ formatNumber(money) }}
                 </div>
                 <div class="btn-save">
                     <button type="submit" class="btn btn-outline-light"
@@ -119,7 +119,7 @@ export default {
         saveSaleData() {
             if (this.amount > 0) {
                 if (this.userAmountSelected >= this.amount) {
-                     this.money = this.money.toFixed(2);
+                    this.money = this.money.toFixed(2);
                     console.log("money:" + this.money)
                     this.saleData = {
                         user_id: this.username,
@@ -150,6 +150,13 @@ export default {
             const wallet = this.getWallet || {};
             const cryptoCode = selectedCripto.toLowerCase();
             this.userAmountSelected = wallet[cryptoCode] || 0;
+        },
+
+        formatNumber(number) {
+            const numStr = number.toString();
+            const parts = numStr.split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return parts.join(',');
         }
 
 

@@ -1,128 +1,93 @@
 <template>
-      <div class="container">
-          <div class="row">
-            <div class="col left">Cripto</div>
-            <div class="col center center">Cantidad</div>
-            <div class="col right">Dinero</div>
-          </div>
-          <div class="row" v-if="userBTC">
-            <div class="col left">BTC:</div>
-            <div class="col center"><p>{{ userBTC.toFixed(6) }}</p></div>
-            <div class="col right"><p>${{ formatNumber((userBTC * pesosBTC).toFixed(2))  }}</p></div>
-          </div>
-          <div class="row" v-if="userETH">
-            <div class="col left">ETH:</div>
-            <div class="col center"><p>{{ userETH.toFixed(6) }}</p></div>
-            <div class="col right"><p>${{ formatNumber((userETH * pesosETH).toFixed(2))  }}</p></div>
-          </div>
-          <div class="row" v-if="userUSDC">
-            <div class="col left">USDC:</div>
-            <div class="col center"><p>{{ userUSDC.toFixed(6) }}</p></div>
-            <div class="col right"><p>${{ formatNumber((userUSDC * pesosUSDC).toFixed(2))  }}</p></div>
-          </div>
-          <div class="row" v-if="userUSDT">
-            <div class="col left">USDT:</div>
-            <div class="col center"><p>{{ userUSDT.toFixed(6) }}</p></div>
-            <div class="col right"><p>${{ formatNumber((userUSDT * pesosUSDT).toFixed(2))  }}</p></div>
-          </div>
-          <div class="row">
-            <div class="col left">TOTAL:</div>
-            <div class="col center"></div>
-            <div class="col right"><p> ${{ formatNumber(totalPesos.toFixed(2)) }}</p></div>
-          </div>
-      </div>
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Criptomoneda</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Dinero</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(amount, cryptoCode) in getWallet" :key="cryptoCode">
+          <td>{{ cryptoCode.toUpperCase() }}</td>
+          <td>{{ formatNumber(amount.toFixed(6)) }}</td>
+          <td>{{ formatNumber((amount * prices[cryptoCode]).toFixed(2)) }}</td>
+        </tr>
+        <tr>
+          <td><b>TOTAL</b></td>
+          <td></td>
+          <td>{{ formatNumber(total.toFixed(2)) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-data() {
-  return {
-    userBTC: 0,
-    userETH: 0,
-    userUSDC: 0,
-    userUSDT: 0,
+  data() {
+    return {
+      prices: {
+        btc: 0,
+        eth: 0,
+        usdc: 0,
+        usdt: 0,
+      },
+      total: 0,
+    };
+  },
 
-    pesosBTC: 0,
-    pesosETH: 0,
-    pesosUSDC: 0,
-    pesosUSDT: 0,
+  created() {
+    this.getState(this.username);
+    this.fetchPrices();
+    this.calculateTotal();
+  },
 
-    totalPesos: 0,
-  };
-},
-
-created() {
-  this.fetchState();
-},
-
-computed: {
-  ...mapGetters(['username']),
-  ...mapGetters('criptos', [
+  computed: {
+    ...mapGetters(['username']),
+    ...mapGetters('criptos', [
       'getBitcoinPrice',
       'getEthereumPrice',
       'getUsdcPrice',
       'getUsdtPrice',
     ]),
-},
+    ...mapGetters('transactions', [
+      'getWallet',
+    ]),
+  },
 
-methods: {
-  ...mapActions('transactions', ['getState']), // Mapea la acción desde el módulo Vuex.
+  methods: {
+    ...mapActions('transactions', ['getState']),
 
-  fetchState() {
-      this.getState(this.username)
-        .then((response) => {
-          this.userBTC = response.BTC;
-          this.userETH = response.ETH;
-          this.userUSDC = response.USDC;
-          this.userUSDT = response.USDT;
+    fetchPrices() {
+      this.prices.btc = this.getBitcoinPrice.totalAsk;
+      this.prices.eth = this.getEthereumPrice.totalAsk;
+      this.prices.usdc = this.getUsdcPrice.totalAsk;
+      this.prices.usdt = this.getUsdtPrice.totalAsk;
+    },
 
-          this.pesosBTC = this.getBitcoinPrice.ask;
-          this.pesosETH = this.getEthereumPrice.ask;
-          this.pesosUSDC = this.getUsdcPrice.ask;
-          this.pesosUSDT = this.getUsdtPrice.ask;
-          this.totalPesos =
-            this.userBTC * this.pesosBTC +
-            this.userETH * this.pesosETH +
-            this.userUSDC * this.pesosUSDC +
-            this.userUSDT * this.pesosUSDT;
-        })
-        .catch((error) => {
-          console.error('Error al obtener el estado de la cuenta:', error);
-        });
+    calculateTotal() {
+      for (let crypto in this.getWallet) {
+        const amount = this.getWallet[crypto];
+        this.total += amount * this.prices[crypto];
+      }
     },
 
     formatNumber(number) {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    },
-},
+    const numStr = number.toString();
+    const parts = numStr.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return parts.join(',');
+  }
+  },
 };
 </script>
 
 <style scoped>
-
-.container{
+.container {
   width: 50%;
 }
-
-.row{
-  border-top: 1px solid white;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  padding: 3px;
-}
-
-.center{
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-}
-
-/* .left {
-text-align: ce;
-}
-
-.right {
-text-align: start;
-} */
 </style>

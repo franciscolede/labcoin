@@ -1,7 +1,7 @@
 <template>
     <div class="Investment-page">
       <Wallet/>
-      <!-- <h1>Análisis de inversiones de {{ username }}</h1> -->
+      <h1>Análisis de inversiones de {{ username }}</h1>
       <investmentComponent></investmentComponent>
     </div>
   </template>

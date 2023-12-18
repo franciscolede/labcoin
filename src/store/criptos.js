@@ -44,7 +44,7 @@ const actions = {
     } catch (error) {
       console.log('Error fetching cryptocurrency price:', error)
     }
-  }
+  },
 }
 
 export default {

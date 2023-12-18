@@ -42,7 +42,7 @@ export default createStore({
       } catch (error) {
         console.error('Error durante el cierre de sesión:', error);
       }
-    }
+    },
   },
 
   modules: {

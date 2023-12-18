@@ -2,8 +2,8 @@ import Vue from 'vue';
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://laboratorio3-5fc7.restdb.io/rest/transactions',
-  headers: {'x-apikey': '64bdbc3386d8c5613ded91e7'},
+  baseURL: 'https://labor3-d60e.restdb.io/rest/transactions',
+  headers: {'x-apikey': '64a2e9bc86d8c525a3ed8f63'},
 });
 
 const state = {
@@ -55,7 +55,7 @@ const actions = {
 
   async getHistory(_, username) {
     try {
-      const response = await apiClient.get(`https://laboratorio3-5fc7.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
+      const response = await apiClient.get(`https://labor3-d60e.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
       return response.data;
     } catch (error) {
       console.error('Error al devolver el historial:', error);
@@ -64,7 +64,7 @@ const actions = {
 
   async deleteTransaction({ commit}, transactionId) {
     try {
-      const response = await apiClient.delete(`https://laboratorio3-5fc7.restdb.io/rest/transactions/${transactionId}`);
+      const response = await apiClient.delete(`https://labor3-d60e.restdb.io/rest/transactions/${transactionId}`);
       const { crypto_code, crypto_amount, action } = response.data;
       console.log("aaa");
       commit('updateWalletAmount', {
@@ -81,7 +81,7 @@ const actions = {
 
   async editTransaction({ commit}, { transactionId, newValues }) {
     try {
-      const response = await apiClient.patch(`https://laboratorio3-5fc7.restdb.io/rest/transactions/${transactionId}`, newValues);
+      const response = await apiClient.patch(`https://labor3-d60e.restdb.io/rest/transactions/${transactionId}`, newValues);
       const { crypto_code, crypto_amount, money, action } = response.data;
 
       const newAmount = action === 'purchase' ? -crypto_amount : crypto_amount;
@@ -101,7 +101,7 @@ const actions = {
 
   async getState({ commit }, username) {
     try {
-      const response = await apiClient.get(`https://laboratorio3-5fc7.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
+      const response = await apiClient.get(`https://labor3-d60e.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
       const userCriptos = {};
   
       for (const transaction of response.data) {
@@ -122,7 +122,8 @@ const actions = {
     } catch (error) {
       console.error('Error al devolver el estado de la cuenta:', error);
     }
-  }
+  },
+  
 };
 
 export default {

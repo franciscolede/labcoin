@@ -11,13 +11,13 @@
         <tr v-for="cryptoInfo in transactionsInvestment" :key="cryptoInfo.cryptoCode">
           <td>{{ cryptoInfo.crypto_code.toUpperCase() }}</td>
           <td :class="{ 'table-success': cryptoInfo.amount > 0, 'table-danger': cryptoInfo.amount < 0 }">
-            {{ cryptoInfo.amount >= 0 ? '+' : '' }}{{ Number(cryptoInfo.amount).toFixed(2) }}
+            {{ cryptoInfo.amount >= 0 ? '+' : '' }}{{ formatNumber(Number(cryptoInfo.amount).toFixed(2)) }}
           </td>
         </tr>
         <tr>
           <td><b>TOTAL</b></td>
           <td :class="{ 'table-success': total > 0, 'table-danger': total < 0 }">
-            <b>{{ total >= 0 ? '+' : '' }}{{ total.toFixed(2) }}</b>
+            <b>{{ total >= 0 ? '+' : '' }}{{ formatNumber(total.toFixed(2)) }}</b>
           </td>
         </tr>
       </tbody>
@@ -66,7 +66,7 @@ export default {
           const index = result.findIndex((el) => el.crypto_code === cryptoCode);
 
           if (index === -1) {
-            console.log(transaction.crypto_code, transaction.money, transaction.action)
+            // console.log(transaction.crypto_code, transaction.money, transaction.action)
             result.push({
               crypto_code: cryptoCode,
               amount: transaction.action === 'purchase' ? -Number(transaction.money) : Number(transaction.money),
@@ -86,6 +86,13 @@ export default {
 
       this.total = total;
     },
+
+    formatNumber(number) {
+    const numStr = number.toString();
+    const parts = numStr.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return parts.join(',');
+  }
   },
 };
 </script>
