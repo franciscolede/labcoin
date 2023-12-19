@@ -41,9 +41,9 @@ export default {
   },
 
   async created() {
-    await this.getState(this.username); // Espera a que getState termine
+    await this.getState(this.username);
     this.fetchPrices();
-    this.calculateTotal(); // Ahora, calculateTotal se ejecutará después de que getState haya terminado
+    this.calculateTotal();
   },
 
   computed: {

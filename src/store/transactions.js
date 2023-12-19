@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import axios from 'axios';
 
+const API_BASE_URL = 'https://laboratorio-afe2.restdb.io/rest/transactions';
 const apiClient = axios.create({
-  baseURL: 'https://labor3-d60e.restdb.io/rest/transactions',
-  headers: {'x-apikey': '64a2e9bc86d8c525a3ed8f63'},
+  baseURL: API_BASE_URL,
+  headers: {'x-apikey': '650b53356888544ec60c00bf'},
 });
 
 const state = {
@@ -55,7 +56,7 @@ const actions = {
 
   async getHistory(_, username) {
     try {
-      const response = await apiClient.get(`https://labor3-d60e.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
+      const response = await apiClient.get(`${API_BASE_URL}?q={"user_id":"${username}"}`);
       return response.data;
     } catch (error) {
       console.error('Error al devolver el historial:', error);
@@ -64,7 +65,7 @@ const actions = {
 
   async deleteTransaction({ commit}, transactionId) {
     try {
-      const response = await apiClient.delete(`https://labor3-d60e.restdb.io/rest/transactions/${transactionId}`);
+      const response = await apiClient.delete(`${API_BASE_URL}/${transactionId}`);
       const { crypto_code, crypto_amount, action } = response.data;
       commit('updateWalletAmount', {
         cryptoCode: crypto_code,
@@ -78,7 +79,7 @@ const actions = {
 
   async editTransaction({ commit}, { transactionId, newValues }) {
     try {
-      const response = await apiClient.patch(`https://labor3-d60e.restdb.io/rest/transactions/${transactionId}`, newValues);
+      const response = await apiClient.patch(`${API_BASE_URL}/${transactionId}`, newValues);
       const { crypto_code, crypto_amount, money, action } = response.data;
 
       const newAmount = action === 'purchase' ? -crypto_amount : crypto_amount;
@@ -97,7 +98,7 @@ const actions = {
 
   async getState({ commit }, username) {
     try {
-      const response = await apiClient.get(`https://labor3-d60e.restdb.io/rest/transactions?q={"user_id":"${username}"}`);
+      const response = await apiClient.get(`${API_BASE_URL}?q={"user_id":"${username}"}`);
       const userCriptos = {};
   
       for (const transaction of response.data) {
