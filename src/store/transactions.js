@@ -66,14 +66,11 @@ const actions = {
     try {
       const response = await apiClient.delete(`https://labor3-d60e.restdb.io/rest/transactions/${transactionId}`);
       const { crypto_code, crypto_amount, action } = response.data;
-      console.log("aaa");
       commit('updateWalletAmount', {
         cryptoCode: crypto_code,
         amount: crypto_amount,
         action: (action === 'purchase' ? 'sale' : 'purchase'),
       });
-      console.log("eee");
-      location.reload();
     } catch (error) {
       console.error('Error al eliminar la transacción:', error);
     }
@@ -93,7 +90,6 @@ const actions = {
         money: newMoney,
         action,
       });
-      location.reload();
     } catch (error) {
       console.error('Error al editar la transacción:', error);
     }

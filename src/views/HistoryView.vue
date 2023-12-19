@@ -6,7 +6,8 @@
         <li v-for="(transaction, index) in transactions" :key="transaction.datetime">
           <div class="transaction">
             <p>Transacción {{ transactions.length - index }}</p>
-            <div class="transaction-box" :class="{'purchase': transaction.action === 'purchase', 'sale': transaction.action === 'sale'}">
+            <div class="transaction-box"
+              :class="{ 'purchase': transaction.action === 'purchase', 'sale': transaction.action === 'sale' }">
               <p>Tipo de cripto: {{ transaction.crypto_code }}</p>
               <p>Acción realizada: {{ transaction.action }}</p>
               <p>Cantidad de cripto: {{ transaction.crypto_amount }}</p>
@@ -14,8 +15,9 @@
               <p>Id de la transacción: {{ transaction._id }}</p>
               <p>Fecha: {{ transaction.datetime }}</p>
             </div>
-            <button @click="saveTransactionId(transaction._id)" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete">Eliminar Nº{{ transactions.length - index }}</button>
-            
+            <button @click="saveTransactionId(transaction._id)" class="btn btn-danger" data-bs-toggle="modal"
+              data-bs-target="#confirmDelete">Eliminar Nº{{ transactions.length - index }}</button>
+
             <div class="modal" id="confirmDelete">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -31,7 +33,7 @@
 
                   <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button @click="deleteTransactionLocal(deleteTransactionId)" class="btn btn-danger">Eliminar</button>
+                    <button @click="deleteTransactionLocal(deleteTransactionId)" data-bs-dismiss="modal" class="btn btn-danger">Eliminar</button>
                   </div>
 
                 </div>
@@ -40,8 +42,9 @@
 
             <!---------------- -->
 
-            <button @click="saveTransactionId(transaction._id)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmEdit">Editar Nº{{ transactions.length - index }}</button>
-            
+            <button @click="saveTransactionId(transaction._id)" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#confirmEdit">Editar Nº{{ transactions.length - index }}</button>
+
             <div class="modal" id="confirmEdit">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -52,18 +55,19 @@
                   </div>
 
                   <div class="modal-body">
-                    <h6>Ingrese el nuevo monto de {{transaction.crypto_code}}:</h6>
+                    <h6>Ingrese el nuevo monto de {{ transaction.crypto_code }}:</h6>
                     <input class="input" type="number" id="crypto_amount" v-model="crypto_amount" min="0" step="0.01">
 
                     <h6>Ingrese el nuevo monto de ARS:</h6>
                     <input class="input" type="number" id="money" v-model="money" min="0" step="0.01">
                   </div>
 
-                  
+
 
                   <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button @click="editTransactionLocal(editTransactionId, crypto_amount, money)" class="btn btn-primary">Editar</button>
+                    <button @click="editTransactionLocal(editTransactionId, crypto_amount, money)"
+                      class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
                   </div>
 
                 </div>
@@ -98,47 +102,59 @@ export default {
   methods: {
     ...mapActions('transactions', ['getHistory', 'deleteTransaction']),
 
-    deleteTransactionLocal(transactionId){
-      this.deleteTransaction(transactionId);
+    async deleteTransactionLocal(transactionId) {
+      try {
+        await this.deleteTransaction(transactionId);
+
+        this.transactions = this.transactions.filter(transaction => transaction._id !== transactionId);
+        this.updateHistory();
+      } catch (error) {
+        console.error('Error al eliminar la transacción:', error);
+      }
     },
 
     async editTransactionLocal(transactionId, crypto_amount, money) {
-  try {
-    const newValues = {};
+      try {
+        const newValues = {};
 
-    if (crypto_amount > 0) {
-      newValues.crypto_amount = crypto_amount;
-    }
+        if (crypto_amount > 0) {
+          newValues.crypto_amount = crypto_amount;
+        }
 
-    if (money > 0) {
-      newValues.money = money;
-    }
+        if (money > 0) {
+          newValues.money = money;
+        }
 
-    if (Object.keys(newValues).length > 0) {
-      await this.$store.dispatch('transactions/editTransaction', { transactionId, newValues });
-    } else {
-      console.log('No se realizaron cambios ya que los valores no son mayores a 0.');
-    }
-  } catch (error) {
-    console.error('Error al editar la transacción:', error);
-  }
-},
+        if (Object.keys(newValues).length > 0) {
+          await this.$store.dispatch('transactions/editTransaction', { transactionId, newValues });
+          this.updateHistory();
+        } else {
+          console.log('No se realizaron cambios ya que los valores no son mayores a 0.');
+        }
+      } catch (error) {
+        console.error('Error al editar la transacción:', error);
+      }
+    },
 
     saveTransactionId(transactionId) {
-    this.deleteTransactionId = transactionId;
-    this.editTransactionId = transactionId;
-  },
+      this.deleteTransactionId = transactionId;
+      this.editTransactionId = transactionId;
+    },
+
+    updateHistory(){
+      this.getHistory(this.username)
+      .then((response) => {
+        console.log(response);
+        this.transactions = response.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+      })
+      .catch((error) => {
+        console.error('Error al obtener el historial:', error);
+      });
+    }
   },
   created() {
-  this.getHistory(this.username)
-    .then((response) => {
-      console.log(response);
-      this.transactions = response.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
-    })
-    .catch((error) => {
-      console.error('Error al obtener el historial:', error);
-    });
-},
+    this.updateHistory();
+  },
 };
 </script>
 
@@ -147,21 +163,21 @@ export default {
   padding: 10px;
 }
 
-li{
+li {
   margin: 20px;
   list-style-type: none;
 }
 
-p{
+p {
   margin: 0;
   padding: 0;
 }
 
-.transaction{
+.transaction {
   text-align: center;
 }
 
-.transaction-box{
+.transaction-box {
   display: flex;
   flex-direction: column;
 
@@ -173,12 +189,11 @@ p{
   background-color: rgba(197, 36, 98, 0.534);
 }
 
-.sale{
+.sale {
   background-color: rgba(29, 182, 136, 0.534);
 }
 
-h5, h6{
+h5,
+h6 {
   color: black;
-}
-
-</style>
+}</style>

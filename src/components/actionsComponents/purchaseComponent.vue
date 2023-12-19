@@ -65,27 +65,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('criptos', [
-      'getBitcoinPrice',
-      'getEthereumPrice',
-      'getUsdcPrice',
-      'getUsdtPrice',
-    ]),
-    bitcoinPrice() {
-      return this.getBitcoinPrice.totalBid;
-    },
-    ethereumPrice() {
-      return this.getEthereumPrice.totalBid;
-    },
-    usdcPrice() {
-      return this.getUsdcPrice.totalBid;
-    },
-    usdtPrice() {
-      return this.getUsdtPrice.totalBid;
-    },
-    ...mapGetters([
-      'username'
-    ]),
+    ...mapGetters('criptos', ['getBTCPrice', 'getETHPrice', 'getUSDCPrice', 'getUSDTPrice']),
+    ...mapGetters(['username']),
   },
   methods: {
     ...mapActions('criptos', ['fetchCryptosPrices']),
@@ -94,25 +75,16 @@ export default {
     calculateAmount() {
       const selectedCriptoPrice = this.getSelectedPrice(this.selectedCripto);
 
-
       if (this.money < 0) {
         this.money = 0;
       }
-
 
       this.amount = parseFloat((parseFloat(this.money) / parseFloat(selectedCriptoPrice)).toFixed(6));
     },
 
     getSelectedPrice(selectedCripto) {
-      if (selectedCripto === "btc") {
-        return this.getBitcoinPrice.totalBid;
-      } else if (selectedCripto === "eth") {
-        return this.getEthereumPrice.totalBid;
-      } else if (selectedCripto === "usdc") {
-        return this.getUsdcPrice.totalBid;
-      } else if (selectedCripto === "usdt") {
-        return this.getUsdtPrice.totalBid;
-      }
+      const getterName = `get${selectedCripto.toUpperCase()}Price`;
+      return this[getterName].totalBid;
     },
 
     savePurchaseData() {

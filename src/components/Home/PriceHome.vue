@@ -1,36 +1,14 @@
 <template>
-    <div class="price-home container-fluid">
-        <div class="row">
-            
-            <div class="col">
-                <img src="@/assets/btc.png" alt="Bitcoin">
-                <h5>Bitcoin</h5>
-                <h3>Compra: ${{ formatNumber(bitcoinPrice.totalBid) }}</h3>
-                <h3>Venta: ${{ formatNumber(bitcoinPrice.totalAsk) }}</h3>
-            </div>
-
-            <div class="col">
-                <img src="@/assets/eth.png" alt="Ethereum">
-                <h5>Ethereum</h5>
-                <h3>Compra: ${{ formatNumber(ethereumPrice.totalBid) }}</h3>
-                <h3>Venta: ${{ formatNumber(ethereumPrice.totalAsk) }}</h3>
-            </div>
-
-            <div class="col">
-                <img src="@/assets/usdc.png" alt="USD Coin">
-                <h5>USD Coin</h5>
-                <h3>Compra: ${{ formatNumber(usdcPrice.totalBid) }}</h3>
-                <h3>Venta: ${{ formatNumber(usdcPrice.totalAsk) }}</h3>
-            </div>
-
-            <div class="col">
-                <img src="@/assets/usdt.png" alt="Tether USDt">
-                <h5>Tether USDt</h5>
-                <h3>Compra: ${{ formatNumber(usdtPrice.totalBid) }}</h3>
-                <h3>Venta: ${{ formatNumber(usdtPrice.totalAsk) }}</h3>
-            </div>
-        </div>
+  <div class="price-home container-fluid">
+    <div class="row">
+      <div v-for="crypto in cryptoList" :key="crypto.code" class="col">
+        <img :src="require(`@/assets/${crypto.code}.png`)" :alt="crypto.name">
+        <h5>{{ crypto.name }}</h5>
+        <h3>Compra: ${{ formatNumber(crypto.price.totalBid) }}</h3>
+        <h3>Venta: ${{ formatNumber(crypto.price.totalAsk) }}</h3>
+      </div>
     </div>
+  </div>
 </template>
     
 <script>
@@ -38,23 +16,14 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters('criptos', [
-      'getBitcoinPrice',
-      'getEthereumPrice',
-      'getUsdcPrice',
-      'getUsdtPrice',
-    ]),
-    bitcoinPrice() {
-      return this.getBitcoinPrice;
-    },
-    ethereumPrice() {
-      return this.getEthereumPrice;
-    },
-    usdcPrice() {
-      return this.getUsdcPrice;
-    },
-    usdtPrice() {
-      return this.getUsdtPrice;
+    ...mapGetters('criptos', ['getBTCPrice', 'getETHPrice', 'getUSDCPrice', 'getUSDTPrice']),
+    cryptoList() {
+      return [
+        { code: 'btc', name: 'Bitcoin', price: this.getBTCPrice },
+        { code: 'eth', name: 'Ethereum', price: this.getETHPrice },
+        { code: 'usdc', name: 'USD Coin', price: this.getUSDCPrice },
+        { code: 'usdt', name: 'Tether USDt', price: this.getUSDTPrice },
+      ];
     },
   },
   methods: {

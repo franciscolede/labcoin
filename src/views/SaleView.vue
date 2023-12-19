@@ -1,6 +1,7 @@
 <template>
   <div class="sale-page">
-    <h1>Vista venta</h1>
+    <h1>VENDIENDO CRIPTO</h1>
+    <hr>
     <saleComponent class="sale-component"/>
     <PriceHome class="price-home"/>
     <PurchaseHome/>

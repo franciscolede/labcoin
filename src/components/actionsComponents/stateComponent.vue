@@ -48,12 +48,7 @@ export default {
 
   computed: {
     ...mapGetters(['username']),
-    ...mapGetters('criptos', [
-      'getBitcoinPrice',
-      'getEthereumPrice',
-      'getUsdcPrice',
-      'getUsdtPrice',
-    ]),
+    ...mapGetters('criptos', ['getBTCPrice', 'getETHPrice', 'getUSDCPrice', 'getUSDTPrice']),
     ...mapGetters('transactions', [
       'getWallet',
     ]),
@@ -63,10 +58,10 @@ export default {
     ...mapActions('transactions', ['getState']),
 
     fetchPrices() {
-      this.prices.btc = this.getBitcoinPrice.totalAsk;
-      this.prices.eth = this.getEthereumPrice.totalAsk;
-      this.prices.usdc = this.getUsdcPrice.totalAsk;
-      this.prices.usdt = this.getUsdtPrice.totalAsk;
+      this.prices.btc = this.getBTCPrice.totalAsk;
+      this.prices.eth = this.getETHPrice.totalAsk;
+      this.prices.usdc = this.getUSDCPrice.totalAsk;
+      this.prices.usdt = this.getUSDTPrice.totalAsk;
     },
 
     calculateTotal() {

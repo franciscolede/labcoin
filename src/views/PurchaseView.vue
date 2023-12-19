@@ -1,6 +1,7 @@
 <template>
   <div class="purchase-page">
     <h1>COMPRANDO CRIPTO</h1>
+    <hr>
     <purchaseComponent class="purchase-component"/>
     <PriceHome class="price-home"/>
     <SaleHome/>

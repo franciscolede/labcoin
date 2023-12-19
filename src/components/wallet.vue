@@ -5,11 +5,9 @@
       <div v-if="Object.keys(getWallet).length === 0">
         <p>No hay elementos en la billetera.</p>
       </div>
-      <div v-else>
-        <div class="col" v-for="(amount, cryptoCode) in getWallet" :key="cryptoCode">
+      <div v-else class="col" v-for="(amount, cryptoCode) in getWallet" :key="cryptoCode">
           <b>{{ cryptoCode.toUpperCase() }}</b>
           <p>{{ amount?.toFixed(6) }}</p>
-        </div>
       </div>
     </div>
   </div>

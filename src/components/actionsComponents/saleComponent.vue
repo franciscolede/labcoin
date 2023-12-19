@@ -79,12 +79,7 @@ export default {
     computed: {
         ...mapGetters(['username']),
         ...mapGetters('transactions', ['getWallet']),
-        ...mapGetters('criptos', [
-            'getBitcoinPrice',
-            'getEthereumPrice',
-            'getUsdcPrice',
-            'getUsdtPrice',
-        ]),
+        ...mapGetters('criptos', ['getBTCPrice', 'getETHPrice', 'getUSDCPrice', 'getUSDTPrice']),
     },
     methods: {
         ...mapActions('transactions', ['newTransaction', 'getState']),
@@ -97,29 +92,19 @@ export default {
                 this.amount = 0;
             }
             this.getUserAmount(this.selectedCripto);
-            this.money = parseFloat((this.amount * selectedCriptoPrice).toFixed(6));
+            this.money = parseFloat((this.amount * selectedCriptoPrice).toFixed(2));
         },
 
 
         getSelectedPrice(selectedCripto) {
-            switch (selectedCripto) {
-                case 'btc':
-                    return this.getBitcoinPrice.totalAsk;
-                case 'eth':
-                    return this.getEthereumPrice.totalAsk;
-                case 'usdc':
-                    return this.getUsdcPrice.totalAsk;
-                case 'usdt':
-                    return this.getUsdtPrice.totalAsk;
-                default:
-                    return 0;
-            }
-        },
+      const getterName = `get${selectedCripto.toUpperCase()}Price`;
+      return this[getterName].totalAsk;
+    },
 
         saveSaleData() {
             if (this.amount > 0) {
                 if (this.userAmountSelected >= this.amount) {
-                    this.money = this.money.toFixed(2);
+                    this.money = this.money;
                     console.log("money:" + this.money)
                     this.saleData = {
                         user_id: this.username,
@@ -139,7 +124,6 @@ export default {
             this.newTransaction(saleData);
             this.money = 0;
             this.amount = 0;
-            // location.reload();
         },
 
         getUserAmount(selectedCripto) {
