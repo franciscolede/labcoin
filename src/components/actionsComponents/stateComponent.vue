@@ -40,10 +40,10 @@ export default {
     };
   },
 
-  created() {
-    this.getState(this.username);
+  async created() {
+    await this.getState(this.username); // Espera a que getState termine
     this.fetchPrices();
-    this.calculateTotal();
+    this.calculateTotal(); // Ahora, calculateTotal se ejecutará después de que getState haya terminado
   },
 
   computed: {
@@ -72,11 +72,11 @@ export default {
     },
 
     formatNumber(number) {
-    const numStr = number.toString();
-    const parts = numStr.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return parts.join(',');
-  }
+      const numStr = number.toString();
+      const parts = numStr.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return parts.join(',');
+    }
   },
 };
 </script>
