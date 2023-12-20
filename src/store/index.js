@@ -27,7 +27,7 @@ export default createStore({
   },
 
   actions: {
-    async login({ commit, dispatch }, username) {
+    async login({ commit}, username) {
       try {
         commit('login', username);
       } catch (error) {

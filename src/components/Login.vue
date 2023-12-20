@@ -5,17 +5,19 @@
     <div id="login-form">
       <input class="form-control" v-model="username" @keydown.enter="handleLogin" placeholder="Nombre de usuario" />
       <button @click="handleLogin" class="btn btn-outline-light">Iniciar sesión</button>
+      <h6 v-if="error">Ingrese un ID de usuario válido. Debe tener entre 5 y 15 caracteres alfanuméricos.</h6>
     </div>
   </div>
 </template>
   
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions} from 'vuex';
 
 export default {
   data() {
     return {
-      username: ''
+      username: '',
+      error: false,
     };
   },
   methods: {
@@ -25,16 +27,15 @@ export default {
       const usernamePattern = /^[a-zA-Z0-9]{5,15}$/;
 
       if (this.username && usernamePattern.test(this.username)) {
+        this.error = false;
         await this.login(this.username);
-        this.$router.push('/#'); // Redirect to home after login
+        this.$router.push('/#');
       } else {
-        alert('Ingrese un ID de usuario válido. Debe tener entre 5 y 15 caracteres alfanuméricos.');
+        this.error = true;
+        this.username = '';
       }
     }
   },
-  computed: {
-    ...mapGetters(['isLoggedIn'])
-  }
 };
 </script>
   

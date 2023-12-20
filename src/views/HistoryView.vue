@@ -11,9 +11,9 @@
               <p>Tipo de cripto: {{ transaction.crypto_code }}</p>
               <p>Acción realizada: {{ transaction.action }}</p>
               <p>Cantidad de cripto: {{ transaction.crypto_amount }}</p>
-              <p>Dinero en pesos: {{ transaction.money }}</p>
+              <p>Dinero en pesos: {{ formatNumber(transaction.money) }}</p>
               <p>Id de la transacción: {{ transaction._id }}</p>
-              <p>Fecha: {{ transaction.datetime }}</p>
+              <p>Fecha: {{ formatDateTime(transaction.datetime) }}</p>
             </div>
             <button @click="saveTransactionId(transaction._id)" class="btn btn-danger" data-bs-toggle="modal"
               data-bs-target="#confirmDelete">Eliminar Nº{{ transactions.length - index }}</button>
@@ -150,7 +150,20 @@ export default {
       .catch((error) => {
         console.error('Error al obtener el historial:', error);
       });
-    }
+    },
+
+    formatDateTime(isoDateTime) {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    const formattedDate = new Date(isoDateTime).toLocaleDateString('es-AR', options);
+    return formattedDate;
+  },
+
+  formatNumber(number) {
+    const numStr = number.toString();
+    const parts = numStr.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return parts.join(',');
+  },
   },
   created() {
     this.updateHistory();

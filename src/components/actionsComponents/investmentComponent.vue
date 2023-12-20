@@ -43,21 +43,16 @@ export default {
   },
 
   async created() {
-    await this.fetchHistory();
+  try {
+    this.transactions = await this.getHistory(this.username);
     this.getInvestment(this.transactions);
-  },
+  } catch (error) {
+    console.error('Error al obtener el historial:', error);
+  }
+},
 
   methods: {
     ...mapActions('transactions', ['getHistory']),
-
-    async fetchHistory() {
-      try {
-        const response = await this.getHistory(this.username);
-        this.transactions = response;
-      } catch (error) {
-        console.error('Error al obtener el historial:', error);
-      }
-    },
 
     getInvestment(transactions) {
       this.transactionsInvestment = transactions.reduce((result, transaction) => {
@@ -66,7 +61,6 @@ export default {
           const index = result.findIndex((el) => el.crypto_code === cryptoCode);
 
           if (index === -1) {
-            // console.log(transaction.crypto_code, transaction.money, transaction.action)
             result.push({
               crypto_code: cryptoCode,
               amount: transaction.action === 'purchase' ? -Number(transaction.money) : Number(transaction.money),

@@ -18,37 +18,37 @@ const routes = [
     path: '/purchase',
     name: 'purchase',
     component: PurchaseView,
-    meta: { requiresAuth: true } // Require authentication
+    meta: { requiresAuth: true } 
   },
   {
     path: '/sale',
     name: 'sale',
     component: SaleView,
-    meta: { requiresAuth: true } // Require authentication
+    meta: { requiresAuth: true } 
   },
   {
     path: '/history',
     name: 'history',
     component: HistoryView,
-    meta: { requiresAuth: true } // Require authentication
+    meta: { requiresAuth: true } 
   },
   {
     path: '/login',
     name: 'login',
     component: LoginView,
-    meta: { requiresGuest: true } // Allow only unauthenticated access
+    meta: { requiresGuest: true } 
   },
   {
     path: '/state',
     name: 'state',
     component: StateView,
-    meta: { requiresAuth: true } // Require authentication
+    meta: { requiresAuth: true } 
   },
   {
     path: '/investment',
     name: 'investment',
     component: InvestmentView,
-    meta: { requiresAuth: true } // Require authentication
+    meta: { requiresAuth: true } 
   },
 ]
 

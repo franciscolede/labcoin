@@ -15,10 +15,10 @@ const getters = {
 };
 
 const mutations = {
-  updateWalletAmount(state, { cryptoCode, amount, action }) {
+  updateCryptoAmount(state, { cryptoCode, amount, action }) {
     if (!state.wallet[cryptoCode]) {
       state.wallet[cryptoCode] = 0;
-    }
+    } 
 
     state.wallet[cryptoCode] += (action === 'purchase') ? amount : -amount;
 
@@ -38,7 +38,7 @@ const actions = {
       console.log('Transaction Data:', transactionData);
       const response = await apiClient.post('', transactionData);
 
-      commit('updateWalletAmount', {
+      commit('updateCryptoAmount', {
         cryptoCode: transactionData.crypto_code,
         amount: transactionData.crypto_amount,
         action: transactionData.action,
@@ -47,9 +47,6 @@ const actions = {
       return response.data;
     } catch (error) {
       console.error('Error al crear la transacción:', error);
-      if (error.response) {
-        console.log('Respuesta del servidor:', error.response.data);
-      }
     }
   },
 
@@ -66,7 +63,7 @@ const actions = {
     try {
       const response = await apiClient.delete(`${API_BASE_URL}/${transactionId}`);
       const { crypto_code, crypto_amount, action } = response.data;
-      commit('updateWalletAmount', {
+      commit('updateCryptoAmount', {
         cryptoCode: crypto_code,
         amount: crypto_amount,
         action: (action === 'purchase' ? 'sale' : 'purchase'),
@@ -84,7 +81,7 @@ const actions = {
       const newAmount = action === 'purchase' ? -crypto_amount : crypto_amount;
       const newMoney = action === 'purchase' ? -money : money;
 
-      commit('updateWalletAmount', {
+      commit('updateCryptoAmount', {
         cryptoCode: crypto_code,
         amount: newAmount,
         money: newMoney,
@@ -113,7 +110,6 @@ const actions = {
           }
         }
       }
-  
       commit('setWallet', userCriptos);
     } catch (error) {
       console.error('Error al devolver el estado de la cuenta:', error);

@@ -52,7 +52,6 @@ export default {
   components: {
     Dropdown,
   },
-  // Puedes agregar propiedades, eventos u otros datos si es necesario
   computed: {
     ...mapGetters(['username', 'isLoggedIn'])
   },
@@ -61,7 +60,7 @@ export default {
     
     async handleLogout() {
       await this.logout();
-      this.$router.push('/#'); // Redirect to login page after logout
+      this.$router.push('/#');
     }
   },
 }
@@ -80,7 +79,6 @@ export default {
 
 .navbar {
   background-color: rgb(217, 240, 232);
-  /* max-height: 50px; */
 }
 
 .navbar-brand {

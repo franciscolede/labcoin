@@ -8,14 +8,6 @@
                 <h5>Historial de movimientos.</h5>
                 </router-link>
             </div>
-
-            <!-- <div class="col">
-                <router-link to="/">
-                <img src="@/assets/lecturaedicionborrado.png" alt="edicion">
-                <h5>Lectura, edición y borrado.</h5>
-                </router-link>
-            </div> -->
-
             <div class="col">
                 <router-link to="/state">
                 <img src="@/assets/analisis-actual.png" alt="analisis actual">

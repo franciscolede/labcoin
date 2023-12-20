@@ -26,8 +26,6 @@
     .row{
         background-color: rgba(18, 32, 28, 0.952);
         height: 350px;
-        /* border-bottom-right-radius: 50px;
-        border-bottom-left-radius: 50px; */
     }
 
    img{

@@ -39,7 +39,7 @@
 
                 <div class="modal-footer">
                   <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button class="btn btn-danger" @click="newTransaction(this.purchaseData)"
+                  <button class="btn btn-danger" @click="newTransactionLocal(this.purchaseData)"
                     data-bs-dismiss="modal">Confirmar</button>
                 </div>
 
@@ -100,17 +100,11 @@ export default {
       }
     },
 
-    newTransaction(purchaseData) {
-      this.$store.dispatch('transactions/newTransaction', purchaseData)
-        .then((response) => {
-          console.log('Compra registrada con éxito', response);
-          this.money = 0;
-          this.amount = 0;
-        })
-        .catch((error) => {
-          console.error('Error al crear la compra:', error);
-        });
-    },
+    newTransactionLocal(purchaseData) {
+            this.newTransaction(purchaseData);
+            this.money = 0;
+            this.amount = 0;
+        },
 
     formatNumber(number) {
       const numStr = number.toString();
@@ -120,7 +114,7 @@ export default {
     }
 
   },
-  watch: { //Al cambiar de moneda en el select, reestablecer el valor de money y amount a 0 para evitar confusiones
+  watch: {
     selectedCripto() {
       this.money = 0;
       this.amount = 0;

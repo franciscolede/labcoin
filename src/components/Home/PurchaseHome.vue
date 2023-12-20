@@ -20,8 +20,6 @@
     .row{
         background-color: rgba(77, 146, 127, 0.295);
         height: 350px;
-        /* border-bottom-right-radius: 50px;
-        border-bottom-left-radius: 50px; */
 
         display: flex;
       justify-content: center;

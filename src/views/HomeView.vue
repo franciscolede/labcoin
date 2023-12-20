@@ -35,7 +35,6 @@ export default {
   .home{
     display: flex;
     flex-direction: column;
-    /* row-gap: 30px; */
   }
 
 </style>
