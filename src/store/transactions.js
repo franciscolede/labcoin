@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import axios from 'axios';
 
 const API_BASE_URL = 'https://laboratorio-afe2.restdb.io/rest/transactions';

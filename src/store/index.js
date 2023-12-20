@@ -30,7 +30,6 @@ export default createStore({
     async login({ commit, dispatch }, username) {
       try {
         commit('login', username);
-        // await dispatch('transactions/getState', username, { root: true });
       } catch (error) {
         console.error('Error durante el inicio de sesión:', error);
       }
