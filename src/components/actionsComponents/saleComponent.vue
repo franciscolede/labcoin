@@ -17,7 +17,8 @@
                     </div>
                     <div class="cripto-amount">
                         <label for="criptoAmount">Monto a vender(en {{ selectedCripto }}):</label>
-                        <input class="input" type="text" id="criptoAmount" v-model="amount" @input="validateInput(); calculateAmount()" required>
+                        <input class="input" type="text" id="criptoAmount" v-model="amount"
+                            @input="validateInput(); calculateAmount()" required>
                     </div>
                     <div class="ars-money">
                         <label>ARS:</label>
@@ -131,6 +132,7 @@ export default {
             try {
                 this.loading = true;
                 await this.newTransaction(saleData);
+                this.getState();
                 this.money = 0;
                 this.amount = 0;
             } catch (error) {
@@ -158,13 +160,13 @@ export default {
         },
 
         validateInput() {
-      const regex = /^\d+(\.\d{0,6})?$/;
-      if (!regex.test(this.amount)) {
-        this.decimalPart = false;
-      } else {
-        this.decimalPart = true;
-      }
-    },
+            const regex = /^\d+(\.\d{0,6})?$/;
+            if (!regex.test(this.amount)) {
+                this.decimalPart = false;
+            } else {
+                this.decimalPart = true;
+            }
+        },
 
 
     },
