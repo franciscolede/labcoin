@@ -1,6 +1,7 @@
 <template>
   <div class="container mt-5">
-    <table class="table">
+    <Loading v-if="loading"></Loading>
+    <table v-if="!loading" class="table">
       <thead>
         <tr>
           <th scope="col">Criptomoneda</th>
@@ -27,10 +28,15 @@
   
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Loading from '../loading.vue';
 
 export default {
+  components: {
+    Loading,
+  },
   data() {
     return {
+      loading: false,
       transactions: [],
       transactionsInvestment: [],
       total: 0,
@@ -43,13 +49,16 @@ export default {
   },
 
   async created() {
-  try {
-    this.transactions = await this.getHistory(this.username);
-    this.getInvestment(this.transactions);
-  } catch (error) {
-    console.error('Error al obtener el historial:', error);
-  }
-},
+    try {
+      this.loading = true;
+      this.transactions = await this.getHistory(this.username);
+      this.getInvestment(this.transactions);
+    } catch (error) {
+      console.error('Error al obtener el historial:', error);
+    } finally {
+      this.loading = false;
+    }
+  },
 
   methods: {
     ...mapActions('transactions', ['getHistory']),
@@ -82,11 +91,11 @@ export default {
     },
 
     formatNumber(number) {
-    const numStr = number.toString();
-    const parts = numStr.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return parts.join(',');
-  }
+      const numStr = number.toString();
+      const parts = numStr.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return parts.join(',');
+    }
   },
 };
 </script>

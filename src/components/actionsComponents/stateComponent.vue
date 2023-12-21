@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <table class="table">
+    <Loading v-if="loading"></Loading>
+    <table v-if="!loading" class="table">
       <thead>
         <tr>
           <th scope="col">Criptomoneda</th>
@@ -26,10 +27,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Loading from '../loading.vue';
 
 export default {
+  components: {
+      Loading
+    },
   data() {
     return {
+      loading: false,
       prices: {
         btc: 0,
         eth: 0,
@@ -41,10 +47,19 @@ export default {
   },
 
   async created() {
-    await this.getState(this.username);
-    this.fetchPrices();
-    this.calculateTotal();
+    try {
+      this.loading = true;
+      await this.getState(this.username);
+      this.fetchPrices();
+      this.calculateTotal();
+    } catch (error) {
+      console.error('Error:', error);
+
+    } finally {
+      this.loading = false; // Desactiva la pantalla de carga, independientemente de si hubo éxito o error
+    }
   },
+
 
   computed: {
     ...mapGetters(['username']),

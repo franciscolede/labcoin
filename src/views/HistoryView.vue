@@ -1,8 +1,9 @@
 <template>
   <div class="history-page">
     <h1>Historial de transacciones de {{ username }}</h1>
-    <div class="container-xs">
-      <ul>
+    <Loading v-if="loading"></Loading>
+    <div v-if="!loading" class="container-xs">
+      <ul v-if="transactions.length > 0">
         <li v-for="(transaction, index) in transactions" :key="transaction.datetime">
           <div class="transaction">
             <p>Transacción {{ transactions.length - index }}</p>
@@ -33,7 +34,8 @@
 
                   <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button @click="deleteTransactionLocal(deleteTransactionId)" data-bs-dismiss="modal" class="btn btn-danger">Eliminar</button>
+                    <button @click="deleteTransactionLocal(deleteTransactionId)" data-bs-dismiss="modal"
+                      class="btn btn-danger">Eliminar</button>
                   </div>
 
                 </div>
@@ -66,8 +68,8 @@
 
                   <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button @click="editTransactionLocal(editTransactionId, crypto_amount, money)"
-                      class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
+                    <button @click="editTransactionLocal(editTransactionId, crypto_amount, money)" class="btn btn-primary"
+                      data-bs-dismiss="modal">Editar</button>
                   </div>
 
                 </div>
@@ -76,18 +78,23 @@
           </div>
         </li>
       </ul>
+      <h3 v-else>Historial vacío</h3>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Loading from '@/components/loading.vue';
 
 export default {
   name: "HistoryView",
-  components: {},
+  components: {
+    Loading,
+  },
   data() {
     return {
+      loading: false,
       transactions: [],
       deleteTransactionId: null,
       editTransactionId: null,
@@ -141,29 +148,31 @@ export default {
       this.editTransactionId = transactionId;
     },
 
-    updateHistory(){
-      this.getHistory(this.username)
-      .then((response) => {
+    async updateHistory() {
+      try {
+        this.loading = true;
+        const response = await this.getHistory(this.username);
         console.log(response);
         this.transactions = response.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error al obtener el historial:', error);
-      });
+      } finally {
+        this.loading = false;
+      }
     },
 
     formatDateTime(isoDateTime) {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-    const formattedDate = new Date(isoDateTime).toLocaleDateString('es-AR', options);
-    return formattedDate;
-  },
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formattedDate = new Date(isoDateTime).toLocaleDateString('es-AR', options);
+      return formattedDate;
+    },
 
-  formatNumber(number) {
-    const numStr = number.toString();
-    const parts = numStr.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return parts.join(',');
-  },
+    formatNumber(number) {
+      const numStr = number.toString();
+      const parts = numStr.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return parts.join(',');
+    },
   },
   created() {
     this.updateHistory();
@@ -209,4 +218,5 @@ p {
 h5,
 h6 {
   color: black;
-}</style>
+}
+</style>

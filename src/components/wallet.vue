@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <Loading v-if="loading"></Loading>
+  <div v-if="!loading">
     <h2>Billetera de {{ username }}</h2>
     <div class="row">
       <div v-if="Object.keys(getWallet).length === 0">
         <p>No hay elementos en la billetera.</p>
       </div>
       <div v-else class="col" v-for="(amount, cryptoCode) in getWallet" :key="cryptoCode">
-          <b>{{ cryptoCode.toUpperCase() }}</b>
-          <p>{{ amount?.toFixed(6) }}</p>
+        <b>{{ cryptoCode.toUpperCase() }}</b>
+        <p>{{ amount}}</p>
       </div>
     </div>
   </div>
@@ -15,14 +16,31 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Loading from './loading.vue';
 
 export default {
+  components: {
+    Loading,
+  },
+  data() {
+    return {
+      loading: false,
+    }
+  },
   computed: {
     ...mapGetters(['username']),
     ...mapGetters('transactions', ['getWallet']),
   },
-  created() {
-    this.getState(this.username);
+  async created() {
+    try {
+      this.loading = true;
+      await this.getState(this.username);
+    } catch (error) {
+      console.error('Error:', error);
+
+    } finally {
+      this.loading = false;
+    }
   },
   methods: {
     ...mapActions('transactions', ['getState']),

@@ -1,47 +1,50 @@
 <template>
     <div class="container">
         <Wallet />
+        <Loading v-if="loading"></Loading>
         <div class="form-container">
             <hr>
             <form @submit.prevent="saveSaleData">
-                <div class="cripto-option">
-                    <label for="cripto">Criptomoneda:</label>
-                    <select class="input" id="cripto" v-model="selectedCripto" required>
-                        <option value="btc">BTC</option>
-                        <option value="eth">ETH</option>
-                        <option value="usdc">USDC</option>
-                        <option value="usdt">USDT</option>
-                    </select>
-                </div>
-                <div class="cripto-amount">
-                    <label for="criptoAmount">Monto a vender(en {{ selectedCripto }}):</label>
-                    <input class="input" type="number" id="criptoAmount" v-model="amount" min="0" step="0.000001"
-                        @input="calculateAmount" required>
-                </div>
-                <div class="ars-money">
-                    <label>ARS:</label>
-                    {{ formatNumber(money) }}
-                </div>
-                <div class="btn-save">
-                    <button type="submit" class="btn btn-outline-light"
-                        :disabled="amount === 0 || userAmountSelected < amount" data-bs-toggle="modal"
-                        data-bs-target="#confirmSale">
-                        Confirmar venta
-                    </button>
-                    <div class="modal" id="confirmSale">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Confirmar venta</h5>
-                                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h6>Confirme que está seguro de realizar la venta.</h6>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button class="btn btn-danger" @click="newTransactionLocal(saleData)"
-                                        data-bs-dismiss="modal">Confirmar</button>
+                <div v-if="!loading">
+                    <div class="cripto-option">
+                        <label for="cripto">Criptomoneda:</label>
+                        <select class="input" id="cripto" v-model="selectedCripto" required>
+                            <option value="btc">BTC</option>
+                            <option value="eth">ETH</option>
+                            <option value="usdc">USDC</option>
+                            <option value="usdt">USDT</option>
+                        </select>
+                    </div>
+                    <div class="cripto-amount">
+                        <label for="criptoAmount">Monto a vender(en {{ selectedCripto }}):</label>
+                        <input class="input" type="number" id="criptoAmount" v-model="amount" min="0" step="0.000001"
+                            @input="calculateAmount" required>
+                    </div>
+                    <div class="ars-money">
+                        <label>ARS:</label>
+                        {{ formatNumber(money) }}
+                    </div>
+                    <div class="btn-save">
+                        <button type="submit" class="btn btn-outline-light"
+                            :disabled="amount === 0 || userAmountSelected < amount" data-bs-toggle="modal"
+                            data-bs-target="#confirmSale">
+                            Confirmar venta
+                        </button>
+                        <div class="modal" id="confirmSale">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirmar venta</h5>
+                                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h6>Confirme que está seguro de realizar la venta.</h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button class="btn btn-danger" @click="newTransactionLocal(saleData)"
+                                            data-bs-dismiss="modal">Confirmar</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -55,14 +58,17 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import Wallet from '../wallet.vue';
+import Loading from '../loading.vue';
 
 export default {
     components: {
         Wallet,
+        Loading
     },
 
     data() {
         return {
+            loading: false,
             selectedCripto: 'btc',
             selectedCriptoPrice: 0,
 
@@ -97,9 +103,9 @@ export default {
 
 
         getSelectedPrice(selectedCripto) {
-      const getterName = `get${selectedCripto.toUpperCase()}Price`;
-      return this[getterName].totalAsk;
-    },
+            const getterName = `get${selectedCripto.toUpperCase()}Price`;
+            return this[getterName].totalAsk;
+        },
 
         saveSaleData() {
             if (this.amount > 0) {
@@ -120,10 +126,17 @@ export default {
             }
         },
 
-        newTransactionLocal(saleData) {
-            this.newTransaction(saleData);
-            this.money = 0;
-            this.amount = 0;
+        async newTransactionLocal(saleData) {
+            try {
+                this.loading = true;
+                await this.newTransaction(saleData);
+                this.money = 0;
+                this.amount = 0;
+            } catch (error) {
+                console.error('Error al realizar la nueva transacción:', error);
+            } finally {
+                this.loading = false;
+            }
         },
 
         getUserAmount(selectedCripto) {
