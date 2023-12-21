@@ -56,7 +56,7 @@ export default {
       console.error('Error:', error);
 
     } finally {
-      this.loading = false; // Desactiva la pantalla de carga, independientemente de si hubo éxito o error
+      this.loading = false;
     }
   },
 

@@ -17,8 +17,7 @@
                     </div>
                     <div class="cripto-amount">
                         <label for="criptoAmount">Monto a vender(en {{ selectedCripto }}):</label>
-                        <input class="input" type="number" id="criptoAmount" v-model="amount" min="0" step="0.000001"
-                            @input="calculateAmount" required>
+                        <input class="input" type="text" id="criptoAmount" v-model="amount" @input="validateInput(); calculateAmount()" required>
                     </div>
                     <div class="ars-money">
                         <label>ARS:</label>
@@ -49,6 +48,7 @@
                             </div>
                         </div>
                     </div>
+                    <p v-if="!decimalPart">Número invalido, recuerda que no puede ser nulo ni tener más de 6 decimales.</p>
                 </div>
             </form>
         </div>
@@ -69,6 +69,7 @@ export default {
     data() {
         return {
             loading: false,
+            decimalPart: true,
             selectedCripto: 'btc',
             selectedCriptoPrice: 0,
 
@@ -154,7 +155,16 @@ export default {
             const parts = numStr.split('.');
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             return parts.join(',');
-        }
+        },
+
+        validateInput() {
+      const regex = /^\d+(\.\d{0,6})?$/;
+      if (!regex.test(this.amount)) {
+        this.decimalPart = false;
+      } else {
+        this.decimalPart = true;
+      }
+    },
 
 
     },

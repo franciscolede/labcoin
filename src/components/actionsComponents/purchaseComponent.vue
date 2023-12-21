@@ -13,18 +13,17 @@
               <option value="usdt">USDT</option>
             </select>
           </div>
-          <div class="ars-money">
-            <label for="money">Monto a pagar(en ARS):</label>
-            <input class="input" type="number" id="money" v-model="money" min="0" step="0.01" @input="calculateAmount"
-              required>
-          </div>
           <div class="cripto-amount">
-            <label>Cantidad de {{ selectedCripto }} a comprar:</label>
-            {{ formatNumber(amount) }}
+            <label for="criptoAmount">Monto a comprar(en {{ selectedCripto }}):</label>
+            <input class="input" type="text" id="criptoAmount" v-model="amount" @input="validateInput(); calculateAmount()" required>
+          </div>
+          <div class="ars-money">
+            <label>ARS:</label>
+            {{ formatNumber(money) }}
           </div>
           <div class="btn-save">
-            <button type="submit" class="btn btn-outline-light" v-bind:disabled="!money" data-bs-toggle="modal"
-              data-bs-target="#confirmPurchase">Confirmar compra</button>
+            <button type="submit" class="btn btn-outline-light" v-bind:disabled="!money || (decimalPart === false)"
+              data-bs-toggle="modal" data-bs-target="#confirmPurchase">Confirmar compra</button>
 
             <div class="modal" id="confirmPurchase">
               <div class="modal-dialog">
@@ -49,6 +48,7 @@
               </div>
             </div>
           </div>
+          <p v-if="!decimalPart">Número invalido, recuerda que no puede ser nulo ni tener más de 6 decimales.</p>
         </div>
       </form>
     </div>
@@ -66,6 +66,7 @@ export default {
   data() {
     return {
       loading: false,
+      decimalPart: true,
       selectedCripto: 'btc',
       money: 0,
       amount: 0,
@@ -82,12 +83,10 @@ export default {
 
     calculateAmount() {
       const selectedCriptoPrice = this.getSelectedPrice(this.selectedCripto);
-
-      if (this.money < 0) {
-        this.money = 0;
+      if (this.amount < 0) {
+        this.amount = 0;
       }
-
-      this.amount = parseFloat((parseFloat(this.money) / parseFloat(selectedCriptoPrice)).toFixed(6));
+      this.money = parseFloat((this.amount * selectedCriptoPrice).toFixed(2));
     },
 
     getSelectedPrice(selectedCripto) {
@@ -126,7 +125,16 @@ export default {
       const parts = numStr.split('.');
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
       return parts.join(',');
-    }
+    },
+
+    validateInput() {
+      const regex = /^\d+(\.\d{0,6})?$/;
+      if (!regex.test(this.amount)) {
+        this.decimalPart = false;
+      } else {
+        this.decimalPart = true;
+      }
+    },
 
   },
   watch: {
